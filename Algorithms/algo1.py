@@ -7,7 +7,7 @@ import datetime
 from getpass import getpass
 import alpaca_trade_api as tradeapi
 
-from ..utilities.login import login
+from utilities import login
 
 alpaca = login.login(attempts=3)
 
@@ -50,6 +50,4 @@ def login(attempts):
 print(alpaca.get_account())
 
 
-bar_iter = alpaca.get_bars_iter("DCFC", tradeapi.rest.TimeFrame.Minute, "2022-04-04", "2022-04-04", adjustment='raw')
-for bar in bar_iter:
-    print(bar)
+class
