@@ -48,6 +48,3 @@ def login(attempts):
 
 # PRINT ACCOUNT DETAILS
 print(alpaca.get_account())
-
-
-class
