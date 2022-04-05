@@ -16,7 +16,7 @@ def login(attempts):
         ALPACA_API_KEY = input('API Key: ')
         ALPACA_SECRET_KEY = getpass('Secret Key: ')
         # INSTANTIATE REST API CONNECTION
-        alpaca = tradeapi.REST(key_id=BASE_URL, secret_key=ALPACA_SECRET_KEY,
+        alpaca = tradeapi.REST(key_id=ALPACA_API_KEY, secret_key=ALPACA_SECRET_KEY,
                             base_url=BASE_URL, api_version='v2')
     except KeyboardInterrupt:
         # ABORT LOGIN
