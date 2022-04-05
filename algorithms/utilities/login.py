@@ -1,4 +1,5 @@
 import sys
+import requests
 import datetime
 from getpass import getpass
 import alpaca_trade_api as tradeapi
@@ -24,7 +25,7 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
         print('\n', 'Keys must be in correct form. Try again.', '\n', sep='')
         return account(BASE_URL='https://paper-api.alpaca.markets',
                         attempts=attempts)
-    except HTTPError:
+    except requests.exceptions.HTTPError:
         # RETRY LOGIN WITH 1 LESS ATTEMPT
         attempts -= 1
         if attempts < 1:
