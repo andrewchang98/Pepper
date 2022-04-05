@@ -21,7 +21,7 @@ def login(attempts=3):
         sys.exit(0)
     except ValueError:
         # Retry Login with same attempts
-        print('\n', 'Info must be in correct form. Try again.', '\n' sep='')
+        print('\n', 'Info must be in correct form. Try again.', '\n', sep='')
         login(attempts)
     except HTTPError:
         # Retry Login with 1 less attempt
