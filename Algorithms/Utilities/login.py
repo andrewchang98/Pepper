@@ -1,7 +1,3 @@
-""" ENTER URL FOR PAPER/LIVE TRADING HERE: """
-BASE_URL = 'https://paper-api.alpaca.markets'
-
-
 import sys
 import datetime
 from getpass import getpass
@@ -9,7 +5,7 @@ import alpaca_trade_api as tradeapi
 
 
 # USER LOGIN METHOD
-def login(attempts):
+def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
     print('Please enter account keys.')
     try:
         # ASK FOR API ACCOUNT KEYS
