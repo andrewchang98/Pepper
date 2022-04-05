@@ -3,6 +3,7 @@ import datetime
 from getpass import getpass
 import alpaca_trade_api as tradeapi
 
+# Login Method (Default 3 attempts)
 def login(attempts=3):
     try:
         # Ask for API Info
@@ -12,19 +13,19 @@ def login(attempts=3):
         ALPACA_SECRET_KEY = getpass('Secret Key: ')
     except KeyboardInterrupt:
         # Abort login
-        print()
-        print('Canceled by user. Exiting now.')
+        print('\n', 'Canceled by user. Exiting now.', sep='')
         sys.exit(0)
     except HTTPError:
         # Retry (Default 3 attempts)
-        print()
-        print('Information is incorrect. Try again.')
+        print('\n', 'Information is incorrect. Try again.', sep='')
         attempts -= 1
         if attempts < 1:
             print('No more attempts. Exiting now.')
         else:
             print('{} attempt remaining.'.format(attempts))
             login(attempts)
+
+
 
 # Instantiate REST API Connection
 alpaca = tradeapi.REST(key_id=ALPACA_API_KEY, secret_key=ALPACA_SECRET_KEY,
