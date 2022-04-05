@@ -31,10 +31,9 @@ def login(attempts=3):
     return BASE_URL, ALPACA_API_KEY, ALPACA_SECRET_KEY
 
 # Assign API Login Info
-tracebacklimit = sys.tracebacklimit
 sys.tracebacklimit = 0
 BASE_URL, ALPACA_API_KEY, ALPACA_SECRET_KEY = login()
-sys.tracebacklimit = tracebacklimit
+sys.tracebacklimit = None
 
 # Instantiate REST API Connection
 alpaca = tradeapi.REST(key_id=BASE_URL, secret_key=ALPACA_SECRET_KEY,
