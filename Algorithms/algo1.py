@@ -1,18 +1,18 @@
+""" ENTER URL FOR PAPER/LIVE TRADING HERE: """
+BASE_URL = 'https://paper-api.alpaca.markets'
+
+
 import sys
 import datetime
 from getpass import getpass
 import alpaca_trade_api as tradeapi
 
-# UNCOMMENT TO REMOVE TRACEBACKS
-#sys.tracebacklimit = 0
 
-# LOGIN METHOD
-def login(attempts=3):
-    global alpaca
-    print('Please enter account information.')
+# USER LOGIN METHOD
+def login(attempts):
+    print('Please enter account keys.')
     try:
-        # ASK FOR API ACCOUNT INFO
-        BASE_URL = input('Base URL: ')
+        # ASK FOR API ACCOUNT KEYS
         ALPACA_API_KEY = input('API Key: ')
         ALPACA_SECRET_KEY = getpass('Secret Key: ')
         # INSTANTIATE REST API CONNECTION
@@ -24,7 +24,7 @@ def login(attempts=3):
         sys.exit(0)
     except ValueError:
         # RETRY LOGIN WITH SAME ATTEMPTS
-        print('\n', 'Info must be in correct form. Try again.', '\n', sep='')
+        print('\n', 'Keys must be in correct form. Try again.', '\n', sep='')
         login(attempts)
     except HTTPError:
         # RETRY LOGIN WITH 1 LESS ATTEMPT
@@ -32,13 +32,20 @@ def login(attempts=3):
         if attempts < 1:
             print('No attempts remaining. Exiting now.')
         else:
-            print('\n', 'Incorrect account key(s). Try again.', sep='')
+            print('\n', 'Incorrect key(s). Try again.', sep='')
             print('{} attempt remaining.'.format(attempts), '\n', sep='')
             login(attempts)
-    return BASE_URL, ALPACA_API_KEY, ALPACA_SECRET_KEY
+    return alpaca
 
-# ASSIGN API LOGIN INFO
-BASE_URL, ALPACA_API_KEY, ALPACA_SECRET_KEY = login()
+
+# PROMPT USER TO LOGIN TO ALPACA AND ASSIGN OBJECT
+alpaca = login(attempts=3)
+
 
 # PRINT ACCOUNT DETAILS
 print(alpaca.get_account())
+
+
+bar_iter = api.get_bars_iter("AAPL", TimeFrame.Hour, "2022-04-05", "2022-04-05", adjustment='raw')
+for bar in bar_iter:
+    print(bar)
