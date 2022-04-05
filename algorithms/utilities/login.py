@@ -25,7 +25,8 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
         print('\n', 'Keys must be in correct form. Try again.', '\n', sep='')
         return account(BASE_URL='https://paper-api.alpaca.markets',
                         attempts=attempts)
-    except requests.exceptions.HTTPError:
+    except requests.exceptions.HTTPError as e:
+        status_code = e.response.status_code
         # RETRY LOGIN WITH 1 LESS ATTEMPT
         attempts -= 1
         if attempts < 1:
