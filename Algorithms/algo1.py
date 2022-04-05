@@ -46,6 +46,6 @@ alpaca = login(attempts=3)
 print(alpaca.get_account())
 
 
-bar_iter = alpaca.get_bars_iter("AAPL", TimeFrame.Hour, "2022-04-05", "2022-04-05", adjustment='raw')
+bar_iter = alpaca.get_bars_iter("AAPL", datetime.TimeFrame.Hour, "2022-04-05", "2022-04-05", adjustment='raw')
 for bar in bar_iter:
     print(bar)
