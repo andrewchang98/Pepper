@@ -7,8 +7,7 @@ import datetime
 from getpass import getpass
 import alpaca_trade_api as tradeapi
 
-sys.path.append('../parentdirectory')
-from parentdirectory.utilities import login
+from ..utilities.login import login
 
 alpaca = login.login(attempts=3)
 
