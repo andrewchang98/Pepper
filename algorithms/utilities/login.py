@@ -14,6 +14,7 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
         # INSTANTIATE REST API CONNECTION
         alpaca = tradeapi.REST(key_id=ALPACA_API_KEY, secret_key=ALPACA_SECRET_KEY,
                             base_url=BASE_URL, api_version='v2')
+        return alpaca
     except KeyboardInterrupt:
         # ABORT LOGIN
         print('\n', 'Canceled by user. Exiting now.', sep='')
@@ -21,7 +22,8 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
     except ValueError:
         # RETRY LOGIN WITH SAME ATTEMPTS
         print('\n', 'Keys must be in correct form. Try again.', '\n', sep='')
-        return account(attempts)
+        return account(BASE_URL='https://paper-api.alpaca.markets',
+                        attempts=attempts)
     except HTTPError:
         # RETRY LOGIN WITH 1 LESS ATTEMPT
         attempts -= 1
@@ -30,5 +32,5 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
         else:
             print('\n', 'Incorrect key(s). Try again.', sep='')
             print('{} attempt remaining.'.format(attempts), '\n', sep='')
-            return account(attempts)
-    return alpaca
+            return account(BASE_URL='https://paper-api.alpaca.markets',
+                            attempts=attempts)
