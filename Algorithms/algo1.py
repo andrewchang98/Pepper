@@ -30,7 +30,7 @@ def login(attempts=3):
 BASE_URL, ALPACA_API_KEY, ALPACA_SECRET_KEY = login()
 
 # Instantiate REST API Connection
-alpaca = tradeapi.REST(key_id=account[0], secret_key=ALPACA_SECRET_KEY,
+alpaca = tradeapi.REST(key_id=BASE_URL, secret_key=ALPACA_SECRET_KEY,
                     base_url=BASE_URL, api_version='v2')
 
 # Print account details
