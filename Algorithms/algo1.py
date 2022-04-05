@@ -1,6 +1,6 @@
 import sys
 import datetime
-import getpass as getpass
+from getpass import getpass
 import alpaca_trade_api as tradeapi
 
 try:
@@ -8,7 +8,7 @@ try:
     print('Please enter account information.')
     BASE_URL = input('Base URL: ')
     ALPACA_API_KEY = input('API Key: ')
-    ALPACA_SECRET_KEY = getpass('Secret Key: ' )
+    ALPACA_SECRET_KEY = getpass('Secret Key: ')
 except KeyboardInterrupt:
     # Abort login
     print()
