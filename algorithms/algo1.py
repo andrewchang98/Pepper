@@ -1,6 +1,5 @@
 import sys
 import datetime
-from getpass import getpass
 import alpaca_trade_api as tradeapi
 from utilities import login
 
