@@ -1,16 +1,7 @@
-""" ENTER URL FOR PAPER/LIVE TRADING HERE: """
-BASE_URL = 'https://paper-api.alpaca.markets'
-
-
 import sys
 import datetime
 from getpass import getpass
 import alpaca_trade_api as tradeapi
-
-sys.path.append('../parentdirectory')
-from parentdirectory.utilities import login
-
-alpaca = login.login(attempts=3)
 
 
 # USER LOGIN METHOD
@@ -41,16 +32,3 @@ def login(attempts):
             print('{} attempt remaining.'.format(attempts), '\n', sep='')
             login(attempts)
     return alpaca
-
-
-# PROMPT USER TO LOGIN TO ALPACA AND ASSIGN OBJECT
-#alpaca = login(attempts=3)
-
-
-# PRINT ACCOUNT DETAILS
-print(alpaca.get_account())
-
-
-bar_iter = alpaca.get_bars_iter("DCFC", tradeapi.rest.TimeFrame.Minute, "2022-04-04", "2022-04-04", adjustment='raw')
-for bar in bar_iter:
-    print(bar)
