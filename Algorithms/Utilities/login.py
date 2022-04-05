@@ -1,3 +1,7 @@
+""" ENTER URL FOR PAPER/LIVE TRADING HERE: """
+BASE_URL = 'https://paper-api.alpaca.markets'
+
+
 import sys
 import datetime
 from getpass import getpass
