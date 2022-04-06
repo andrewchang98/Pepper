@@ -23,9 +23,10 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
                             secret_key=ALPACA_SECRET_KEY,
                             base_url='https://paper-api.alpaca.markets',
                             data_feed='sip')
-            print('\n', 'Success!', sep='')
             # PRINT ACCOUNT DETAILS
             print('\n', alpaca.get_account(), '\n', sep='')
+            print('Success! Your account details are displayed above.',
+                  '\n', sep='')
             # RETURN API AND STREAM OBJECTS
             return alpaca, stream
 
