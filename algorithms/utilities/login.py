@@ -25,7 +25,8 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
                             data_feed='sip')
             # PRINT ACCOUNT DETAILS
             print('\n', alpaca.get_account(), '\n', sep='')
-            print('Success! Your account details are displayed above.',
+            print('Successfully logged in. ',
+                  'Your account details are displayed above.',
                   '\n', sep='')
             # RETURN API AND STREAM OBJECTS
             return alpaca, stream
