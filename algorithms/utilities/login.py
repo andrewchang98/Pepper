@@ -18,7 +18,7 @@ def prompt():
         return apikey, secretkey
 
 # LOAD ACCOUNT INFO
-def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
+def account(BASE_URL='https://paper-api.alpaca.markets'):
     # TRY TO LOAD PASSWORDS FILE
     print('Loading account info...')
     try:
