@@ -13,7 +13,7 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
         # ASK FOR API ACCOUNT KEYS
         ALPACA_API_KEY = input('API Key: ')
         ALPACA_SECRET_KEY = getpass('Secret Key: ')
-        # INSTANTIATE REST API CONNECTION AND STREAM
+        # TRY TO INSTANTIATE REST API CONNECTION AND STREAM
         print('\n', 'Logging in...', sep='')
         try:
             alpaca = tradeapi.REST(key_id=ALPACA_API_KEY,
@@ -24,19 +24,8 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
                             secret_key=ALPACA_SECRET_KEY,
                             base_url='https://paper-api.alpaca.markets',
                             data_feed='sip')
-            # PRINT ACCOUNT DETAILS
-            print('\n', alpaca.get_account(), '\n', sep='')
-            print('Successfully logged in. ',
-                  'Your account details are displayed above.',
-                  '\n', sep='')
-            # RETURN API AND STREAM OBJECTS
-            return alpaca, stream
-
         # !!!THIS EXCEPTION IS BROKEN!!!
-        except requests.exceptions.HTTPError as e:
-            status_code = e.response.status_code
-            if e == 403:
-                print('403')
+        except requests.exceptions.HTTPError:
             # RETRY LOGIN WITH 1 LESS ATTEMPT
             attempts -= 1
             if attempts < 1:
@@ -46,15 +35,20 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
                 print('{} attempt remaining.'.format(attempts), '\n', sep='')
                 return account(BASE_URL='https://paper-api.alpaca.markets',
                                 attempts=attempts)
-        # TO REPLICATE BUG ENTER INCORRECT KEYS
-
-
+        except ValueError:
+            # RETRY LOGIN WITH SAME ATTEMPTS
+            print('\n', 'Keys must be in correct form. Try again.', '\n', sep='')
+            return account(BASE_URL='https://paper-api.alpaca.markets',
+                            attempts=attempts)
     except KeyboardInterrupt:
         # ABORT LOGIN
         print('\n', 'Canceled by user. Exiting now.', sep='')
         sys.exit(0)
-    except ValueError:
-        # RETRY LOGIN WITH SAME ATTEMPTS
-        print('\n', 'Keys must be in correct form. Try again.', '\n', sep='')
-        return account(BASE_URL='https://paper-api.alpaca.markets',
-                        attempts=attempts)
+    else:
+        # PRINT ACCOUNT DETAILS
+        print('\n', alpaca.get_account(), '\n', sep='')
+        print('Successfully logged in. ',
+              'Your account details are displayed above.',
+              '\n', sep='')
+        # RETURN API AND STREAM OBJECTS
+        return alpaca, stream

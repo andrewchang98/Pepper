@@ -7,3 +7,6 @@ class Bot:
         self.totalvalue = initial_buying_power
         self.account = account
         self.stream = stream
+
+    def run(timelimit=None):
+        
