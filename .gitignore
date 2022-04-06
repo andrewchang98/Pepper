@@ -1,2 +1,5 @@
-# No Push / Pull Files
+# Password Files
+.key
+
+# No Push/Pull Files
 .npp
