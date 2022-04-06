@@ -21,7 +21,7 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
                                    api_version='v2')
             stream = Stream(key_id=ALPACA_API_KEY,
                             secret_key=ALPACA_SECRET_KEY,
-                            base_url=URL('https://paper-api.alpaca.markets'),
+                            base_url='https://paper-api.alpaca.markets',
                             data_feed='iex')
             return alpaca, stream
 
