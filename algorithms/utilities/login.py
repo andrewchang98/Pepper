@@ -14,7 +14,7 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
         ALPACA_API_KEY = input('API Key: ')
         ALPACA_SECRET_KEY = getpass('Secret Key: ')
         # INSTANTIATE REST API CONNECTION AND STREAM
-        print('\n', 'Logging in...', '\n', sep='')
+        print('\n', 'Logging in...', sep='')
         try:
             alpaca = tradeapi.REST(key_id=ALPACA_API_KEY,
                                    secret_key=ALPACA_SECRET_KEY,
