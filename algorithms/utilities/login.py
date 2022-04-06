@@ -13,7 +13,7 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
         # ASK FOR API ACCOUNT KEYS
         ALPACA_API_KEY = input('API Key: ')
         ALPACA_SECRET_KEY = getpass('Secret Key: ')
-        # INSTANTIATE REST API CONNECTION
+        # INSTANTIATE REST API CONNECTION AND STREAM
         try:
             alpaca = tradeapi.REST(key_id=ALPACA_API_KEY,
                                    secret_key=ALPACA_SECRET_KEY,
@@ -22,7 +22,11 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
             stream = Stream(key_id=ALPACA_API_KEY,
                             secret_key=ALPACA_SECRET_KEY,
                             base_url='https://paper-api.alpaca.markets',
-                            data_feed='iex')
+                            data_feed='sip')
+            print('\n', 'Success!', sep='')
+            # PRINT ACCOUNT DETAILS
+            print('\n', alpaca.get_account(), '\n', sep='')
+            # RETURN API AND STREAM OBJECTS
             return alpaca, stream
 
         # !!!THIS EXCEPTION IS BROKEN!!!
