@@ -24,7 +24,7 @@ def account(BASE_URL='https://paper-api.alpaca.markets'):
     try:
         from accounts import passwords
     except ImportError:
-        print('No account info found.')
+        print('No account info found in ~/.local/lib/python3.9/site-packages/accounts/')
         ALPACA_API_KEY, ALPACA_SECRET_KEY = prompt()
     else:
         # ASK TO LOGIN AS USER
