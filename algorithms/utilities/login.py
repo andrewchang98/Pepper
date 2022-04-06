@@ -59,53 +59,5 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
         print('Exiting now.')
         sys.exit(0)
     else:
-        print('\n', 'Successfully logged into Alpaca.', '\n', sep='')
-        return dexcom
-
-
-# USER LOGIN METHOD
-def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
-    print('Please enter account keys.')
-    try:
-        # ASK FOR API ACCOUNT KEYS
-        ALPACA_API_KEY = input('API Key: ')
-        ALPACA_SECRET_KEY = getpass('Secret Key: ')
-        # TRY TO INSTANTIATE REST API CONNECTION AND STREAM
-        print('\n', 'Logging in...', sep='')
-        try:
-            alpaca = tradeapi.REST(key_id=ALPACA_API_KEY,
-                                   secret_key=ALPACA_SECRET_KEY,
-                                   base_url=BASE_URL,
-                                   api_version='v2')
-            stream = Stream(key_id=ALPACA_API_KEY,
-                            secret_key=ALPACA_SECRET_KEY,
-                            base_url='https://paper-api.alpaca.markets',
-                            data_feed='sip')
-        # !!!THIS EXCEPTION IS BROKEN!!!
-        except requests.exceptions.HTTPError:
-            # RETRY LOGIN WITH 1 LESS ATTEMPT
-            attempts -= 1
-            if attempts < 1:
-                print('No attempts remaining. Exiting now.')
-            else:
-                print('\n', 'Incorrect key(s). Try again.', sep='')
-                print('{} attempt remaining.'.format(attempts), '\n', sep='')
-                return account(BASE_URL='https://paper-api.alpaca.markets',
-                                attempts=attempts)
-        except ValueError:
-            # RETRY LOGIN WITH SAME ATTEMPTS
-            print('\n', 'Keys must be in correct form. Try again.', '\n', sep='')
-            return account(BASE_URL='https://paper-api.alpaca.markets',
-                            attempts=attempts)
-    except KeyboardInterrupt:
-        # ABORT LOGIN
-        print('\n', 'Canceled by user. Exiting now.', sep='')
-        sys.exit(0)
-    else:
-        # PRINT ACCOUNT DETAILS
-        print('\n', alpaca.get_account(), '\n', sep='')
-        print('Successfully logged in. ',
-              'Your account details are displayed above.',
-              '\n', sep='')
-        # RETURN API AND STREAM OBJECTS
+        print('Successfully logged into ', BASE_URL, '\n', sep='')
         return alpaca, stream
