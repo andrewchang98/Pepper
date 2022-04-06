@@ -24,6 +24,8 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
                             base_url=URL('https://paper-api.alpaca.markets'),
                             data_feed='iex')
             return alpaca, stream
+
+        # !!!THIS EXCEPTION IS BROKEN!!!
         except requests.exceptions.HTTPError as e:
             status_code = e.response.status_code
             if e == 403:
@@ -37,6 +39,9 @@ def account(BASE_URL='https://paper-api.alpaca.markets', attempts=3):
                 print('{} attempt remaining.'.format(attempts), '\n', sep='')
                 return account(BASE_URL='https://paper-api.alpaca.markets',
                                 attempts=attempts)
+        # TO REPLICATE BUG ENTER INCORRECT KEYS
+
+
     except KeyboardInterrupt:
         # ABORT LOGIN
         print('\n', 'Canceled by user. Exiting now.', sep='')
