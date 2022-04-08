@@ -12,22 +12,21 @@ class Bot:
         self.symbol = symbol
         self.totalvalue = initial_buying_power
         self.account, self.stream = login.account()
+        # HELPER FUNCTION TO RETURN A STRING FROM DATETIME OBJECT
+        def stringdate(dt):
+            if type(dt) == str:
+                return dt
+            return dt.strftime('%Y-%m-%d')
 
-    # HELPER FUNCTION TO RETURN A STRING FROM DATETIME OBJECT
-    def stringdate(dt):
-        if type(dt) == str:
-            return dt
-        return dt.strftime('%Y-%m-%d')
-
-    # MAIN FUNCTION
-    def run(self, tf, start_date, end_datetime=None):
-        try:
-            while end_datetime is None or end_datetime > datetime.now():
-                self.account.get_bars(self.symbol, tf,
-                                      stringdate(start_date),
-                                      stringdate(datetime.now()), adjustment='raw')
-        except KeyboardInterrupt:
-            print('!!!CANCELLED BY USER!!!')
+        # MAIN FUNCTION
+        def run(self, tf, start_date, end_datetime=None):
+            try:
+                while end_datetime is None or end_datetime > datetime.now():
+                    self.account.get_bars(self.symbol, tf,
+                                          stringdate(start_date),
+                                          stringdate(datetime.now()), adjustment='raw')
+            except KeyboardInterrupt:
+                print('!!!CANCELLED BY USER!!!')
 
 
 """
