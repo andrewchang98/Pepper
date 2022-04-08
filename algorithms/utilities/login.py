@@ -1,23 +1,23 @@
 import sys
-import requests
 import datetime
 from getpass import getpass
+from requests.exceptions import HTTPError
 import alpaca_trade_api as tradeapi
 from alpaca_trade_api.stream import Stream
 
-# PROMPT USER INFO
+# PROMPT USER INFO IN TERMINAL
 def prompt():
     print('Please enter account keys:')
     try:
         apikey = input('API Key: ')
         secretkey = getpass('Secret Key: ')
     except KeyboardInterrupt:
-        print('\n', 'Canceled by user. Exiting now.', sep='')
+        print('\n', 'CANCELLED by user. Exiting now.', sep='')
         sys.exit(0)
     else:
         return apikey, secretkey
 
-# LOAD ACCOUNT INFO
+# LOG INTO ALPACA AND RETURN ALPACA API AND STREAM
 def account(BASE_URL='https://paper-api.alpaca.markets'):
     # TRY TO LOAD PASSWORDS FILE
     print('Loading account info...')
@@ -37,10 +37,10 @@ def account(BASE_URL='https://paper-api.alpaca.markets'):
             elif keystroke == 'n' or keystroke == 'N':
                 ALPACA_API_KEY, ALPACA_SECRET_KEY = prompt()
             else:
-                print('\n', 'Canceled by user. Exiting now.', sep='')
+                print('\n', 'CANCELLED by user. Exiting now.', sep='')
                 sys.exit(0)
         except KeyboardInterrupt:
-            print('\n', 'Canceled by user. Exiting now.', sep='')
+            print('\n', 'CANCELLED by user. Exiting now.', sep='')
             sys.exit(0)
 
     # CONNECT TO DEXCOM SHARE API
@@ -54,7 +54,7 @@ def account(BASE_URL='https://paper-api.alpaca.markets'):
                         secret_key=ALPACA_SECRET_KEY,
                         base_url='https://paper-api.alpaca.markets',
                         data_feed='sip')
-    except:
+    except HTTPError:
         print('\n', 'Login failed. Please check keys.', sep='')
         print('Exiting now.')
         sys.exit(0)
