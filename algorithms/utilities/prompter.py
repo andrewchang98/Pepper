@@ -10,7 +10,7 @@ def prompter(printer=None, message='Log into Alpaca:'):
         printer = printer
     printer(message)
     try:
-        printer('\Account SID:', end=' ')
+        printer('\nAccount SID:', end=' ')
         username = input()
         printer('Auth Token:', end=' ')
         password = getpass(prompt='')
