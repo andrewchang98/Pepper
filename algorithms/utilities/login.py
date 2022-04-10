@@ -17,12 +17,12 @@ def login():
         APCA_API_KEY_ID, APCA_API_SECRET_KEY = prompter(rp.printer)
     else:
         # ASK TO LOGIN AS USER
-        rp.printer('Login as {} (Y/n)?'.format(passwords.account[0]), end=' ')
+        rp.printer('Login as {} (Y/n)?'.format(passwords.alpaca['api_key']), end=' ')
         try:
             keystroke = input()
             if keystroke == 'y' or keystroke == 'Y':
-                APCA_API_KEY_ID = passwords.account[0]
-                APCA_API_SECRET_KEY = passwords.account[1]
+                APCA_API_KEY_ID = passwords.alpaca['api_key']
+                APCA_API_SECRET_KEY = passwords.alpaca['auth_token']
             elif keystroke == 'n' or keystroke == 'N':
                 APCA_API_KEY_ID, APCA_API_SECRET_KEY = prompter(rp.printer)
             else:
