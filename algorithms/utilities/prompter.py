@@ -10,9 +10,10 @@ def prompter(printer=None, message='Log into Alpaca:'):
         printer = printer
     printer(message)
     try:
-        printer('Username:', end=' ')
+        printer('\nSID:', end=' ')
         username = input()
-        password = getpass()
+        printer('\nAuth Token:', end=' ')
+        password = getpass(prompt='')
     except KeyboardInterrupt:
         print('\nCancelled by user. Exiting now.')
         sys.exit(0)
