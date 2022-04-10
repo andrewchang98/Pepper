@@ -46,5 +46,5 @@ def login():
 
         rp.printer('Logged in as {}'.format(APCA_API_KEY_ID))
         account = alpaca.get_account()
-        rp.printer('Your account is: {}'.format(account.status))
+        rp.printer('Your account is: {}\n'.format(account.status))
         return alpaca, stream
