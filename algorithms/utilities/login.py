@@ -15,7 +15,7 @@ def login():
         import passwords
     except ImportError:
         rp.printer('No account info found in ~/Trading')
-        APCA_API_KEY_ID, APCA_SECRET_KEY_ID = prompter(rp.printer)
+        APCA_API_KEY_ID, APCA_API_SECRET_KEY = prompter(rp.printer)
     else:
         # ASK TO LOGIN AS USER
         rp.printer('Login as {} (Y/n)?'.format(passwords.account[0]), end=' ')
@@ -23,9 +23,9 @@ def login():
             keystroke = input()
             if keystroke == 'y' or keystroke == 'Y':
                 APCA_API_KEY_ID = passwords.account[0]
-                APCA_SECRET_KEY_ID = passwords.account[1]
+                APCA_API_SECRET_KEY = passwords.account[1]
             elif keystroke == 'n' or keystroke == 'N':
-                APCA_API_KEY_ID, APCA_SECRET_KEY_ID = prompter(rp.printer)
+                APCA_API_KEY_ID, APCA_API_SECRET_KEY = prompter(rp.printer)
             else:
                 rp.printer('\nCancelled by user. Exiting now.')
                 sys.exit(0)
