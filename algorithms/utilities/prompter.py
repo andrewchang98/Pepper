@@ -3,12 +3,12 @@ from getpass import getpass
 from slowprinter import Printer
 
 # ACCOUNT SUBROUTINE TO PROMPT USER INFO
-def prompter(printer=None):
+def prompter(printer=None, message='Log into Alpaca:'):
     if printer is None:
         printer = print
     else:
         printer = printer
-    printer('Log into Dexcom:')
+    printer(message)
     try:
         printer('Username:', end=' ')
         username = input()
