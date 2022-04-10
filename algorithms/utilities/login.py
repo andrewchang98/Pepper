@@ -39,7 +39,7 @@ def login():
                                APCA_API_BASE_URL)
         stream = tradeapi.stream.Stream(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
                                APCA_API_BASE_URL)
-    except:
+    except KeyboardInterrupt:
         rp.printer('\nLogin failed. Please check username and password.')
         rp.printer('Exiting now.')
         sys.exit(0)
