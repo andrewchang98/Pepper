@@ -28,7 +28,7 @@ def account(BASE_URL='https://paper-api.alpaca.markets'):
         ALPACA_API_KEY, ALPACA_SECRET_KEY = prompt()
     else:
         # ASK TO LOGIN AS USER
-        print('Login as {} (y/n)?'.format(passwords.account[0]), end = ' ')
+        print('Login as {} (Y/n)?'.format(passwords.account[0]), end = ' ')
         try:
             keystroke = input()
             if keystroke == 'y' or keystroke == 'Y':
