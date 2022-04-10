@@ -34,10 +34,10 @@ def login():
             sys.exit(0)
     # CONNECT TO DEXCOM SHARE API
     try:
-        rp.printer('\nConnecting to Dexcom servers...')
+        rp.printer('\nConnecting to Alpaca servers...')
         alpaca = tradeapi.REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
                                APCA_API_BASE_URL)
-        stream = tradeapi.stream.Stream(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
+        #stream = tradeapi.stream.Stream(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
                                APCA_API_BASE_URL)
     except KeyboardInterrupt:
         rp.printer('\nLogin failed. Please check username and password.')
@@ -45,7 +45,7 @@ def login():
         sys.exit(0)
     else:
 
-        rp.printer('Logged in as {}\n'.format(DEXCOM_USERNAME))
+        rp.printer('Logged in as {}\n'.format(APCA_API_KEY_ID))
         account = alpaca.get_account()
         rp.printer(account.status)
         return alpaca, stream
