@@ -22,7 +22,7 @@ def login():
             keystroke = input()
             if keystroke == 'y' or keystroke == 'Y':
                 APCA_API_KEY_ID = passwords.alpaca['api_key']
-                APCA_API_SECRET_KEY = passwords.alpaca['auth_token']
+                APCA_API_SECRET_KEY = passwords.alpaca['secret_key']
             elif keystroke == 'n' or keystroke == 'N':
                 APCA_API_KEY_ID, APCA_API_SECRET_KEY = prompter(rp.printer)
             else:
