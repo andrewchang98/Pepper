@@ -237,7 +237,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             exit()
         hostname = socket.gethostname()
         ip_address = socket.gethostbyname(hostname)
-        sms_alert(sms, TWLO_PHONE_NUM, TWLO_USER_NUM,
+        sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
                  alert="ALERT: Logged in on {}@{}".format(hostname, ip_address))
         slow.printer("Alert sent to: {}".format(TWLO_USER_NUM))
     except KeyboardInterrupt:
