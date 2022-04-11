@@ -261,7 +261,7 @@ class Connection:
         self.twilio = twilio
         self.locked = locked
         self.slow = slow
-        self.start_timestamp = get_timestr()
+        self.timestamp = get_timestr()
         self.slow.printer("All services successfully connected.")
         self.slow.printer(self.start_time.strftime(self.date_format))
 
@@ -274,4 +274,4 @@ class Connection:
         self.locked = False
 
     def get_start_time(self):
-        self.slow.printer(self.start_time.strftime(self.date_format))
+        self.slow.printer(self.timestamp)
