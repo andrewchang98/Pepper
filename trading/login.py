@@ -265,7 +265,7 @@ class Connection:
         utc = datetime.now(tz=pytz.utc)
         self.start_time = utc.astimezone(timezone('US/Pacific'))
         self.slow.printer("All services successfully connected.")
-        self.slow.printer(self.start_time.strftime())
+        self.slow.printer(self.start_time.strftime(self.date_format))
 
 
     def lock(self):
@@ -276,4 +276,4 @@ class Connection:
         self.locked = False
 
     def get_start_time(self):
-        self.printer()
+        self.slow.printer(self.start_time.strftime(self.date_format))
