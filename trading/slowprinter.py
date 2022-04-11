@@ -1,7 +1,16 @@
+"""
+A char by char print function for that lit terminal vibe.
+
+ex:
+$ cd ~/Trading/trading
+$ python3
+>>> from slowprinter import Printer
+
+"""
+
 from sys import stdout, exit
 from time import sleep
 
-# CHARACTER BY CHARACTER PRINT FUNCTION
 class Printer:
     def __init__(self, char_per_sec:int=50, disabled:bool=False):
         self.disabled = disabled
@@ -11,7 +20,7 @@ class Printer:
 
 
     # MAIN FUNCTION
-    def printer(self, string, end='\n'):
+    def printer(self, string:str='', end:str='\n'):
         try:
             if self.disabled:
                 print(string, end=end)

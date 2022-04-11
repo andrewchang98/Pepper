@@ -11,7 +11,7 @@ class Bot:
         self.name = name
         self.symbol = symbol
         self.totalvalue = initial_buying_power
-        self.account, self.stream = login.account()
+        self.account, self.stream = login.login()
         # HELPER FUNCTION TO RETURN A STRING FROM DATETIME OBJECT
         def stringdate(dt):
             if type(dt) == str:
