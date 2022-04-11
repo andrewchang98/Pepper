@@ -68,7 +68,7 @@ def read_input(response, *args):
 def input_confirmation(printer=None):
     if printer is None:
         printer = print
-    printer("Continue (y/n)?")
+    printer(">>> Continue (y/n)?")
     response = input()
     if read_input(response, 'y', 'Y'):
         return True
