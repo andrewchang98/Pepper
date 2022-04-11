@@ -4,7 +4,7 @@ import pytz
 from pytz import timezone
 from getpass import getpass
 from datetime import datetime
-from requests import HTTPError
+#from requests import HTTPError
 from twilio.rest import Client
 from alpaca_trade_api import REST
 from alpaca_trade_api.stream import Stream
@@ -214,9 +214,12 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         except TypeError:
             slow.printer("\nEnsure all entered values are <class 'str'>")
             exit(slow)
-        slow.printer("Logged in as: {}".format(APCA_API_KEY_ID))
-        account = alpaca.get_account()
-        slow.printer("Your account status: {}".format(account.status))
+        try:
+            account = alpaca.get_account()
+            slow.printer("Logged in as: {}".format(APCA_API_KEY_ID))
+            slow.printer("Your account status: {}".format(account.status))
+        except HTTPError:
+            slow.printer("HTTPError occurred.")
         try:
             from passwords import twilio_key_dict
             TWLO_SID_KEY = twilio_key_dict['acc_key']
