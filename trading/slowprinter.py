@@ -5,6 +5,14 @@ ex:
 $ cd ~/Trading/trading
 $ python3
 >>> from slowprinter import Printer
+>>> slow = Printer(100, False)
+>>> slow.printer("Wow that printed fast!")
+>>> slow = Printer(50, False)
+>>> slow.printer("That's better.")
+>>> slow = Printer(10, False)
+>>> slow.printer("S L O W   M O T I O N")
+>>> slow = Printer(10, True)
+>>> slow.printer()
 
 """
 
@@ -20,10 +28,10 @@ class Printer:
 
 
     # MAIN FUNCTION
-    def printer(self, string:str='', end:str='\n'):
+    def printer(self, *args, sep:str=' ', end:str='\n') -> None:
         try:
             if self.disabled:
-                print(string, end=end)
+                print(*args, sep=sep end=end)
             else:
                 for char in string:
                     stdout.write(char)
@@ -38,17 +46,17 @@ class Printer:
 
 
     # ENABLE SLOW PRINTS
-    def enable_printer(self):
+    def enable_printer(self) -> None:
         self.disabled = False
 
     # USE REGULAR PRINTS
-    def disable_printer(self):
+    def disable_printer(self) -> None:
         self.disabled = True
 
     # Change print speed in character/second
-    def change_char_per_sec(self, char_per_sec:int=50):
+    def change_char_per_sec(self, char_per_sec:int=50) -> None:
         self.delay = char_per_sec
 
     # Change delay between prints directly
-    def change_delay(self, delay:float=0.02):
+    def change_delay(self, delay:float=0.02) -> None:
         self.delay = delay
