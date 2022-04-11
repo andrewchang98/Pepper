@@ -4,7 +4,7 @@ import pytz
 from pytz import timezone
 from getpass import getpass
 from datetime import datetime
-#from requests import HTTPError
+from requests.exceptions import HTTPError
 from twilio.rest import Client
 from alpaca_trade_api import REST
 from alpaca_trade_api.stream import Stream
