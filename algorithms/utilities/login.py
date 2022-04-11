@@ -4,9 +4,7 @@ from slowprinter import Printer
 import alpaca_trade_api as tradeapi
 
 # MAIN ROUTINE TO LOAD ACCOUNT INFO
-def login():
-    #
-    APCA_API_BASE_URL = 'https://paper-api.alpaca.markets'
+def login(APCA_API_BASE_URL='https://paper-api.alpaca.markets'):
     # TRY TO LOAD PASSWORDS FILE
     rp = Printer(delay=0.05)
     rp.printer('Loading account info...')

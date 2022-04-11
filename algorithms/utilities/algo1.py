@@ -1,7 +1,7 @@
 import sys
 import datetime
 import alpaca_trade_api as tradeapi
-from utilities import login
+from login import login
 
 # LOGIN AND ASSIGN ALPACA AND STREAM OBJECTS
-alpaca, stream = login.account(BASE_URL='https://paper-api.alpaca.markets')
+alpaca, stream = login(BASE_URL='https://paper-api.alpaca.markets')
