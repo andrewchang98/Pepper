@@ -199,7 +199,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             from passwords import alpaca_key_dict
             APCA_API_KEY_ID = alpaca_key_dict['acc_key']
             APCA_API_SECRET_KEY = alpaca_key_dict['auth_key']
-            if not input_confirmation(slow):
+            if not input_confirmation(slow.printer):
                 APCA_API_KEY_ID, APCA_API_SECRET_KEY = \
                     alpaca_prompter(slow)
         except (ImportError, KeyError):
@@ -225,7 +225,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             TWLO_AUTH_TOKEN = twilio_key_dict['auth_key']
             TWLO_PHONE_NUM = twilio_key_dict['phone_num']
             TWLO_USER_NUM = twilio_key_dict['user_num']
-            if not input_confirmation(slow):
+            if not input_confirmation(slow.printer):
                 TWLO_SID_KEY, TWLO_AUTH_TOKEN, TWLO_PHONE_NUM, TWLO_USER_NUM = \
                     twilio_prompter(slow)
         except (ImportError, KeyError):
