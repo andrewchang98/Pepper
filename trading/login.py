@@ -206,7 +206,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer("\nError loading <alpaca_key_dict> from \
                          ~/Trading/trading/passwords.py")
             APCA_API_KEY_ID, APCA_API_SECRET_KEY = \
-                alpaca_prompter(slow)
+                alpaca_prompter(slow.printer)
         slow.printer("Connecting to Alpaca...")
         try:
             alpaca = REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
@@ -232,7 +232,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer("\nError loading <twilio_key_dict> from \
                          ~/Trading/trading/passwords.py")
             TWLO_SID_KEY, TWLO_AUTH_TOKEN, TWLO_PHONE_NUM, TWLO_USER_NUM = \
-                twilio_prompter(slow)
+                twilio_prompter(slow.printer)
         try:
             twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
         except TypeError:
