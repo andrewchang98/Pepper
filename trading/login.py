@@ -1,4 +1,5 @@
 import sys
+import socket
 import pytz
 from pytz import timezone
 from getpass import getpass
@@ -10,11 +11,7 @@ from alpaca_trade_api.stream import Stream
 from slowprinter import Printer
 
 
-def alpaca_prompter(printer=None):
-    if printer is None:
-        printer = print
-    else:
-        printer = printer
+def alpaca_prompter(printer=print):
     printer("Log into Alpaca:")
     printer("\nAccount Key:", end=' ')
     acc_key = input()
@@ -201,7 +198,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             APCA_API_SECRET_KEY = alpaca_key_dict['auth_key']
             if not input_confirmation(slow.printer):
                 APCA_API_KEY_ID, APCA_API_SECRET_KEY = \
-                    alpaca_prompter(slow)
+                    alpaca_prompter(slow.printer)
         except (ImportError, KeyError):
             slow.printer("\nError loading <alpaca_key_dict> from \
                          ~/Trading/trading/passwords.py")
@@ -227,7 +224,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             TWLO_USER_NUM = twilio_key_dict['user_num']
             if not input_confirmation(slow.printer):
                 TWLO_SID_KEY, TWLO_AUTH_TOKEN, TWLO_PHONE_NUM, TWLO_USER_NUM = \
-                    twilio_prompter(slow)
+                    twilio_prompter(slow.printer)
         except (ImportError, KeyError):
             slow.printer("\nError loading <twilio_key_dict> from \
                          ~/Trading/trading/passwords.py")
@@ -238,8 +235,11 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         except TypeError:
             slow.printer("\nEnsure all entered values are <class 'str'>")
             exit()
-        sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
-                  alert="TradingBot has started!")
+        hostname = socket.gethostname()
+        ip_address = socket.gethostbyname(hostname)
+        sms_alert(sms, TWLO_PHONE_NUM, TWLO_USER_NUM,
+                  alert="ALERT: Logged in on {}@{}\".format(hostname,
+                                                            ip_address))
         slow.printer("Alert sent to: {}".format(TWLO_USER_NUM))
     except KeyboardInterrupt:
         slow.printer("\nLogin cancelled by user.")
@@ -249,4 +249,30 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         raise
         exit()
     else:
-        return alpaca, stream, twilio
+        return alpaca, stream, twilio, slow
+
+
+class Connection:
+    def __init__(self, locked=False):
+        alpaca, stream, twilio, slow = login()
+        self.alpaca = alpaca
+        self.stream = stream
+        self.twilio = twilio
+        self.locked = locked
+        self.slow = slow
+        self.date_format= '%I:%M:%S%M %Z %a %b %d %Y'
+        utc = datetime.now(tz=pytz.utc)
+        self.start_time = utc.astimezone(timezone('US/Pacific'))
+        self.slow.printer("All services successfully connected.")
+        self.slow.printer(self.start_time.strftime())
+
+
+    def lock(self):
+        self.locked = True
+
+
+    def unlock(self):
+        self.locked = False
+
+    def get_start_time(self):
+        self.printer()
