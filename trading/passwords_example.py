@@ -8,9 +8,9 @@ $ sudo cp passwords_example.py passwords.py
 """
 
 #PASSWORD INFORMATION FILE
-alpaca = {'acc_key':  '<APCA_API_KEY_ID>',
+alpaca_key_dict = {'acc_key':  '<APCA_API_KEY_ID>',
           'auth_key': '<APCA_API_SECRET_KEY>'}
 
-twilio = {'acc_key':  '<TWILIO_ACCOUNT_SID>',
+twilio_key_dict = {'acc_key':  '<TWILIO_ACCOUNT_SID>',
           'auth_key': '<TWILIO_AUTH_TOKEN>',
-          'phone_num: '<TWILIO_PHONE_NUM>'}
+          'phone_num': '<TWILIO_PHONE_NUM>'}

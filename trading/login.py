@@ -1,88 +1,134 @@
 import sys
 from getpass import getpass
-from prompter import prompter
-from slowprinter import Printer
-import alpaca_trade_api as tradeapi
+from datetime import datetime
+from requests import HTTPError
 from twilio.rest import Client
+from alpaca_trade_api import REST
+from alpaca_trade_api.stream import Stream
+from slowprinter import Printer
 
-# HELPER ROUTINE TO READ USER INPUTS
-def read_input(response, printer, *args)
+
+def prompter(printer=None, message=":"):
     if printer is None:
-        printer = print()
+        printer = print
+    else:
+        printer = printer
+    printer("Log in", end='')
+    printer(message)
+    printer("\nAccount Key:", end=' ')
+    username = input()
+    printer("Authorization Key:", end=' ')
+    password = getpass(prompt='')
+    return username, password
+
+def sms_alert(message=None)
+    if message is None:
+        message =
+
+def read_input(response, *args):
     for char in args:
         if response == char:
             return True
     return False
 
-# HELPER FUNCTION TO PROMPT USER INFO
-def prompter(printer=None, message="Log into Alpaca:"):
-    if printer is None:
-        printer = print
-    else:
-        printer = printer
-    printer(message)
+def exit(code=0):
+    slow.printer("Exiting now.")
+    sys.exit(code)
+
+
+def auto_login(APCA_API_BASE_URL="https://paper-api.alpaca.markets", data_feed='sip'):
     try:
-        printer("\nAccount SID:", end=' ')
-        username = input()
-        printer("Auth Token:", end=' ')
-        password = getpass(prompt='')
+        try:
+            from passwords import alpaca_key_dict
+            APCA_API_KEY_ID = alpaca_key_dict['acc_key']
+            APCA_API_SECRET_KEY = alpaca_key_dict['auth_key']
+        except ImportError:
+            slow.printer("\n\n~/Trading/trading/passwords.py is missing alpaca_key_dict")
+        except KeyError:
+            slow.printer("\n\nalpaca_key_dict not properly configured in ~/Trading/trading/passwords.py")
+
+        alpaca = REST(APCA_API_KEY_ID,
+                      APCA_API_SECRET_KEY,
+                      APCA_API_BASE_URL)
+        stream = Stream(APCA_API_KEY_ID,
+                        APCA_API_SECRET_KEY,
+                        APCA_API_BASE_URL,
+                        data_feed=data_feed)
+
+        try:
+            from passwords import twilio_key_dict
+            TWLO_SID_KEY = twilio_key_dict['acc_key']
+            TWLO_AUTH_TOKEN = twilio_key_dict['auth_key']
+            TWLO_PHONE_NUM = twilio_key_dict['phone_num']
+        except ImportError:
+            slow.printer("\n\n~/Trading/trading/passwords.py is missing twilio_key_dict")
+        except KeyError:
+            slow.printer("\n\ntwilio_key_dict not properly configured in ~/Trading/trading/passwords.py")
+
+        twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
+
+
     except KeyboardInterrupt:
-        print("\nCancelled by user. Exiting now.")
-        sys.exit(0)
-    else:
-        return username, password
+        slow.printer("\n\nLogin cancelled by user.")
+        sys.exit()
+    except ImportError:
+        slow.printer("\n\n~/Trading/trading/passwords.py not found.")
+        exit()
+    except HTTPError:
+        slow.printer("\n\nFailed to connect. Check if keys are valid.")
+        exit()
+    except:
+        slow.printer("\n\nSomething went wrong. Check code for errors.")
 
 
-# MAIN ROUTINE TO START TRADING
 def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets"):
     try:
-        rp = Printer(delay=0.05)
-        rp.printer("Loading account info...")
-        # IMPORT ALPACA KEYS FROM 'passwords.py'
+        slow = Printer(delay=0.05)
+        slow.printer("Loading account info...")
         try:
             from passwords import alpaca_keys as keys
         except ImportError:
-            rp.printer("No account info found in ~/Trading")
-            APCA_API_KEY_ID, APCA_API_SECRET_KEY = prompter(rp.printer)
+            slow.printer("Did not find Alpaca account in ~/Trading/trading/passwords.py")
+            APCA_API_KEY_ID, APCA_API_SECRET_KEY = prompter(slow.printer, " to Alpaca:")
         else:
-            # ASK TO LOG IN AS USER IF "alpaca" IS FOUND IN 'passwords.py'
-            rp.printer("Log in as {} (y/n)?".format(keys['acc_key']), end=' ')
+            slow.printer("Log in as {} (y/n)?".format(keys['acc_key']), end=' ')
             response = input()
             read_input
             if response == 'y' or response == 'Y':
                 APCA_API_KEY_ID = keys['acc_key']
                 APCA_API_SECRET_KEY = keys['auth_key']
             elif response == 'n' or response == 'N':
-                APCA_API_KEY_ID, APCA_API_SECRET_KEY = prompter(rp.printer)
+                APCA_API_KEY_ID, APCA_API_SECRET_KEY = prompter(slow.printer, " to Alpaca:")
             else:
-                rp.printer("\nCancelled by user. Exiting now.")
+                slow.printer("\nCancelled by user. Exiting now.")
                 sys.exit(0)
-        # CONNECT AND ASSIGN ALPACA REST API AND STREAM
-        rp.printer("\nConnecting to Alpaca servers...\n")
-        alpaca = tradeapi.REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
-                               APCA_API_BASE_URL)
-        stream = tradeapi.stream.Stream(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
-                               APCA_API_BASE_URL)
-
-
-
+        slow.printer("\nConnecting to Alpaca servers...\n")
+        try:
+            alpaca = REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
+                                   APCA_API_BASE_URL)
+            stream = Stream(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
+                                   APCA_API_BASE_URL)
+        except:
+            slow.printer("Something went wrong. Inspect Alpaca keys and code.")
+            slow.printer("Exiting now.")
+            sys.exit(0)
         else:
-            rp.printer("Logged in as {}".format(APCA_API_KEY_ID))
+            slow.printer("Logged in as {}".format(APCA_API_KEY_ID))
             account = alpaca.get_account()
-            rp.printer("Your account is: {}".format(account.status))
-            # ASK TO ENABLE TWILIO TEXT ALERTS
-            rp.printer("Would you like to enable Twilio SMS text alerts (y/n)?")
+            slow.printer("Your account is: {}".format(account.status))
+            slow.printer("Would you like to enable Twilio SMS text alerts (y/n)?")
             response = input()
-            if read_input(response, rp, 'y', 'Y'):
-                # IMPORT TWILIO KEYS FROM 'passwords.py'
+            if read_input(response, slow, 'y', 'Y'):
                 try:
                     from passwords import twilio_keys as keys
-                    rp.printer("Login as {} (y/n)?".format(keys['phone_num']), end=' ')
+                    slow.printer("Login as {} (y/n)?".format(keys['phone_num']), end=' ')
                     response = input()
-
+                except ImportError:
+                    slow.printer("Did not find Twilio account in )
+            elif read_input(response, slow, 'n', 'N'):
+                TWILIO_SID_KEY, TWILIO_AUTH_KEY = prompter(slow.printer, " to Twilio:")
             else:
                 return alpaca, stream
     except KeyboardInterrupt:
-        rp.printer("\n\nLogin cancelled by user.")
-        rp.printer("Exiting now.")
-        sys.exit(0)
+        slow.printer("\n\nLogin cancelled by user.")
+        exit()
