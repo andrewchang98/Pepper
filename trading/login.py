@@ -12,7 +12,7 @@ from slowprinter import Printer
 
 def prompter(printer=None, message=":"):
     if printer is None:
-        printer = print()
+        printer = print
     else:
         printer = printer
     printer("Log in", end='')
