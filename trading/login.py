@@ -262,8 +262,7 @@ class Connection:
         self.locked = locked
         self.slow = slow
         self.timestamp = get_timestr()
-        self.slow.printer("All services successfully connected.")
-        self.slow.printer(self.timestamp)
+        self.slow.printer("Connection successful: " + self.timestamp)
 
 
     def lock(self):
