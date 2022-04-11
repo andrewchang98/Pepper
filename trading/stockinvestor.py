@@ -1,5 +1,6 @@
 """
 Basic trading Bot class
+Currently not being updated.
 
 """
 
