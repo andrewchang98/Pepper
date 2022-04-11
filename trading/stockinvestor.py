@@ -1,3 +1,8 @@
+"""
+Basic trading Bot class
+
+"""
+
 import time
 import pickle
 import login
@@ -5,7 +10,6 @@ from datetime import datetime
 from alpaca_trade_api.rest import TimeFrame
 from alpaca_trade_api.stream import Stream
 
-# BASIC OF TRADING BOT CLASS
 class Bot:
     def __init__(self, name, symbol, initial_buying_power, account, stream):
         self.name = name
@@ -30,7 +34,7 @@ class Bot:
 
 
 """
-GET CLOCK SHIT
+GET CLOCK DATA
 account.get_clock().timestamp.is_open
 
 account.get_clock().timestamp.year
