@@ -92,3 +92,5 @@ def auto_login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
     except HTTPError:
         slow.printer("\nHTTPError: Failed to connect. Check if keys are valid.")
         exit()
+    else:
+        return alpaca, stream, twilio
