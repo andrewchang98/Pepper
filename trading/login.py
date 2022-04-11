@@ -78,7 +78,7 @@ def input_confirmation(printer=None):
     elif read_input(response, 'n', 'Y'):
         return False
     else:
-        return input_confirmation()
+        return input_confirmation(printer)
 
 
 def exit(code=0):
