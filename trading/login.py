@@ -38,7 +38,7 @@ def twilio_prompter(printer=None):
 
 
 def get_timestr(tz='pst'):
-    date_format='%I:%M:%S%M %Z %m/%d/%Y'
+    date_format='%I:%M:%S%p %Z %m/%d/%Y'
     utc = datetime.now(tz=pytz.utc)
     pst = utc.astimezone(timezone('US/Pacific'))
     if tz == 'pst':
@@ -261,9 +261,7 @@ class Connection:
         self.twilio = twilio
         self.locked = locked
         self.slow = slow
-        self.date_format= '%I:%M:%S%M %Z %a %b %d %Y'
-        utc = datetime.now(tz=pytz.utc)
-        self.start_time = utc.astimezone(timezone('US/Pacific'))
+        self.start_timestamp = get_timestr()
         self.slow.printer("All services successfully connected.")
         self.slow.printer(self.start_time.strftime(self.date_format))
 
