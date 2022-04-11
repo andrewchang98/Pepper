@@ -38,7 +38,7 @@ def twilio_prompter(printer=None):
 
 
 def get_timestr(tz='pst'):
-    date_format='%I:%M:%S%p %Z %m/%d/%Y'
+    date_format='%I:%M:%S%p %m/%d/%Y %Z'
     utc = datetime.now(tz=pytz.utc)
     pst = utc.astimezone(timezone('US/Pacific'))
     if tz == 'pst':
@@ -83,7 +83,7 @@ def exit(code=0):
     sys.exit(code)
 
 
-def auto_login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
+def auto_login(APCA_API_BASE_URL='https://paper-api.alpaca.markets',
                data_feed='sip', disable_slow_print=False):
     try:
         slow = Printer(char_per_sec=50, disabled=disable_slow_print)
@@ -240,7 +240,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         hostname = socket.gethostname()
         ip_address = socket.gethostbyname(hostname)
         sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
-                 alert="ALERT: Logged in on {}@{}".format(hostname, ip_address))
+                  alert="ALERT: Logged in on {}@{}".format(hostname,
+                  ip_address))
         slow.printer("Alert sent to: {}".format(TWLO_USER_NUM))
     except KeyboardInterrupt:
         slow.printer("\nLogin cancelled by user.")
@@ -267,10 +268,16 @@ class Connection:
 
     def lock(self):
         self.locked = True
+        self.slow.printer("Connection locked.")
+        return self.locked
 
 
     def unlock(self):
         self.locked = False
+        self.slow.printer("Connection unlocked.")
+        return self.locked
+
+
 
     def get_start_time(self):
-        self.slow.printer(self.timestamp)
+        return self.slow.printer(self.timestamp)
