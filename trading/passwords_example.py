@@ -1,10 +1,13 @@
 """
 PASSWORD EXAMPLE FILE FOR ALPACA TRADING LOGIN
 
-RENAME THIS FILE TO 'passwords.py'
+(1): COPY THIS FILE TO 'passwords.py'
 $ cd ~/Trading/trading
 $ sudo cp passwords_example.py passwords.py
 
+(2): EDIT 'passwords.py'
+$ cd ~/Trading/trading
+$ sudo nano passwords.py
 """
 
 # PASSWORD DICTIONARY FILE
