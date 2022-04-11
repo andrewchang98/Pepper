@@ -46,6 +46,7 @@ def exit(code=0):
 def auto_login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                data_feed='sip'):
     try:
+        slow = Printer()
         try:
             from passwords import alpaca_key_dict
             APCA_API_KEY_ID = alpaca_key_dict['acc_key']

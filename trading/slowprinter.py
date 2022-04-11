@@ -3,9 +3,9 @@ from time import sleep
 
 # CHARACTER BY CHARACTER PRINT FUNCTION
 class Printer:
-    def __init__(self, delay=0.05, disabled=False):
+    def __init__(self, char_per_sec=50, disabled=False):
         self.disabled = disabled
-        self.delay = delay
+        self.delay = 1 / char_per_sec
 
     # MAIN FUNCTION
     def printer(self, string, end='\n'):
