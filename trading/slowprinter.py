@@ -5,7 +5,10 @@ from time import sleep
 class Printer:
     def __init__(self, char_per_sec=50, disabled=False):
         self.disabled = disabled
+        if char_per_sec < 1:
+            char_per_sec = 1
         self.delay = 1 / char_per_sec
+
 
     # MAIN FUNCTION
     def printer(self, string, end='\n'):
