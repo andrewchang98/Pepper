@@ -108,7 +108,7 @@ def auto_login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             exit()
         sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
                   alert="TradingBot has started!")
-        slow.printer("Message sent to {}: ".format(TWLO_USER_NUM))
+        slow.printer("Message sent to: {}".format(TWLO_USER_NUM))
     except KeyboardInterrupt:
         slow.printer("\nLogin cancelled by user.")
         exit()
