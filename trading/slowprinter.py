@@ -21,7 +21,7 @@ class Printer:
                     stdout.write(end)
                     stdout.flush()
         except KeyboardInterrupt:
-            print('\nCancelled by user. Exiting now.')
+            print("\nCancelled by user. Exiting now.")
             exit(0)
 
 
