@@ -27,11 +27,11 @@ class Printer:
         self.delay = 1 / char_per_sec
 
 
-    # MAIN FUNCTION
+    # Main printer function
     def printer(self, *args, sep:str=' ', end:str='\n') -> None:
         try:
             if self.disabled:
-                print(*args, sep=sep end=end)
+                print(*args, sep=sep, end=end)
             else:
                 for char in string:
                     stdout.write(char)
@@ -45,11 +45,11 @@ class Printer:
             exit(0)
 
 
-    # ENABLE SLOW PRINTS
+    # Enable slow printing
     def enable_printer(self) -> None:
         self.disabled = False
 
-    # USE REGULAR PRINTS
+    # Use built-in print() function
     def disable_printer(self) -> None:
         self.disabled = True
 
