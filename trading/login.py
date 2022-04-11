@@ -24,11 +24,11 @@ def prompter(printer=None, message=":"):
     return username, password
 
 
-def get_timestr(tz):
+def get_timestr(tz='pst'):
     date_format='%I:%M:%S%M %Z %m/%d/%Y'
     utc = datetime.now(tz=pytz.utc)
     pst = date.astimezone(timezone('US/Pacific'))
-    if tz == 'ptc':
+    if tz == 'pst':
         return pst.strftime(date_format)
     elif tz == 'utc':
         return utc.strftime(date_format)
@@ -38,8 +38,7 @@ def get_timestr(tz):
 
 def sms_alert(sender, receiver, alert="!ALERT! "):
     date_format = '%I:%M%p %w %d %Y'
-    time = datetime.now(timezone.utc)
-    timestr = time.strftime(date_format)
+    timestr = get_timestr('pst')
     body = client.messages.create(
         to=receiver,
         from_=sender,
