@@ -36,8 +36,8 @@ def get_timestr(tz='pst'):
         raise TypeError("Not a recognized timezone.")
 
 
-def sms_alert(client, sender, receiver, alert="!ALERT! "):
-    date_format = '%I:%M%p %w %d %Y'
+def sms_alert(client, sender, receiver, alert="!ALERT!"):
+    date_format = ' %I:%M%p %w %d %Y'
     timestr = get_timestr('pst')
     body = client.messages.create(
         to=receiver,
@@ -106,8 +106,7 @@ def auto_login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer("\nEnsure all twilio_key_dict values in \
                          ~/Trading/trading/passwords.py are <class 'str'>")
             exit()
-        sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
-                  alert="You have logged into Twilio ")
+        sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM)
     except KeyboardInterrupt:
         slow.printer("\nLogin cancelled by user.")
         exit()
