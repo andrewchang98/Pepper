@@ -3,7 +3,7 @@ from time import sleep
 
 # CHARACTER BY CHARACTER PRINT FUNCTION
 class Printer:
-    def __init__(self, char_per_sec=50, disabled=False):
+    def __init__(self, char_per_sec:int=50, disabled:bool=False):
         self.disabled = disabled
         if char_per_sec < 1:
             char_per_sec = 1
@@ -36,6 +36,10 @@ class Printer:
     def disable_printer(self):
         self.disabled = True
 
-    # CHANGE DELAY
-    def change_delay(self, delay):
+    # Change print speed in character/second
+    def change_char_per_sec(self, char_per_sec:int=50):
+        self.delay = char_per_sec
+
+    # Change delay between prints directly
+    def change_delay(self, delay:float=0.02):
         self.delay = delay

@@ -6,12 +6,13 @@ from getpass import getpass
 from datetime import datetime
 from requests.exceptions import HTTPError
 from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException
 from alpaca_trade_api import REST
 from alpaca_trade_api.stream import Stream
 from slowprinter import Printer
 
-
-def alpaca_prompter(printer=print):
+# Ask for Alpaca Credentials in the CLI
+def alpaca_prompter(printer=print) -> tuple:
     printer("Log into Alpaca:")
     printer("\nAccount Key:", end=' ')
     acc_key = input()
@@ -19,8 +20,8 @@ def alpaca_prompter(printer=print):
     auth_key = getpass(prompt='')
     return acc_key, auth_key
 
-
-def twilio_prompter(printer=None):
+# Ask for Twilio Credentials in the CLI
+def twilio_prompter(printer=None) -> tuple:
     if printer is None:
         printer = print
     else:
@@ -37,7 +38,7 @@ def twilio_prompter(printer=None):
     return acc_key, auth_key, phone_num, user_num
 
 
-def get_timestr(tz='pst'):
+def get_timestr(tz='pst') -> str:
     date_format='%I:%M:%S%p %m/%d/%Y %Z'
     utc = datetime.now(tz=pytz.utc)
     pst = utc.astimezone(timezone('US/Pacific'))
@@ -49,13 +50,17 @@ def get_timestr(tz='pst'):
         raise TypeError("Not a recognized timezone.")
 
 
-def sms_alert(client, sender, receiver, alert="!ALERT!"):
-    date_format = ' %I:%M%p %w %d %Y'
-    timestr = get_timestr('pst')
-    body = client.messages.create(
-        to=receiver,
-        from_=sender,
-        body=alert+timestr)
+def sms_alert(client, sender, receiver, alert="!ALERT!", printer=print) -> None:
+    try:
+        date_format = ' %I:%M%p %w %d %Y'
+        timestr = get_timestr('pst')
+        body = client.messages.create(
+            to=receiver,
+            from_=sender,
+            body=alert+timestr)
+    except TwilioRestException as err:
+
+
 
 
 def read_input(response, *args):
