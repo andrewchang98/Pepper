@@ -219,7 +219,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer("Logged in as: {}".format(APCA_API_KEY_ID))
             slow.printer("Your account status: {}".format(account.status))
         except HTTPError as err:
-            slow.printer("Error occurred during login.")
+            slow.printer("Error occurred during Alpaca login.")
             slow.printer(str(err))
         try:
             from passwords import twilio_key_dict
