@@ -242,10 +242,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer("\nEnsure all entered values are <class 'str'>")
             exit(slow)
         hostname = socket.gethostname()
-        ip_address = socket.gethostbyname(hostname)
         sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
-                  alert="ALERT: Logged in on {}@{}".format(hostname,
-                  ip_address))
+                  alert="ALERT! Logged in on: {}".format(hostname))
         slow.printer("Alert sent to: {}".format(TWLO_USER_NUM))
     except KeyboardInterrupt:
         slow.printer("\nLogin cancelled by user.")
@@ -259,7 +257,11 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
 
 
 class Connection:
-    def __init__(self, locked=False):
+    def __init__(
+                self,
+                 APCA_API_BASE_URL="https://paper-api.alpaca.markets",
+                 locked=False
+                 ):
         alpaca, stream, twilio, slow = login()
         self.alpaca = alpaca
         self.stream = stream
