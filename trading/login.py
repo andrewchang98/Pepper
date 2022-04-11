@@ -35,7 +35,7 @@ def twilio_prompter(printer=None):
     auth_key = getpass(prompt='')
     printer("Twilio Phone Number:", end=' ')
     phone_num = input()
-    printer("Target Phone Number:" end=' ')
+    printer("Target Phone Number:", end=' ')
     user_num = input()
     return acc_key, auth_key, phone_num, user_num
 
