@@ -26,7 +26,7 @@ class Bot:
                                           stringdate(start_date),
                                           stringdate(datetime.now()), adjustment='raw')
             except KeyboardInterrupt:
-                print('!!!CANCELLED BY USER!!!')
+                print("!!!CANCELLED BY USER!!!")
 
 
 """
