@@ -14,7 +14,7 @@ from slowprinter import Printer
 def alpaca_prompter(printer=print):
     printer("Log into Alpaca:")
     printer("\nAccount Key:", end=' ')
-    acc_key = input()
+    acc_key = input('>>> ')
     printer("Authorization Key:", end=' ')
     auth_key = getpass(prompt='')
     return acc_key, auth_key
@@ -27,7 +27,7 @@ def twilio_prompter(printer=None):
         printer = printer
     printer("Log into Twilio:")
     printer("\nAccount Key:", end=' ')
-    acc_key = input()
+    acc_key = input('>>> ')
     printer("Authorization Key:", end=' ')
     auth_key = getpass(prompt='')
     printer("Twilio Phone Number:", end=' ')
@@ -68,8 +68,8 @@ def read_input(response, *args):
 def input_confirmation(printer=None):
     if printer is None:
         printer = print
-    printer(">>> Continue (y/n)?")
-    response = input()
+    printer("-> Continue (y/n)?")
+    response = input('>>> ')
     if read_input(response, 'y', 'Y'):
         return True
     elif read_input(response, 'n', 'Y'):
