@@ -27,7 +27,7 @@ def prompter(printer=None, message=":"):
 def get_timestr(tz='pst'):
     date_format='%I:%M:%S%M %Z %m/%d/%Y'
     utc = datetime.now(tz=pytz.utc)
-    pst = date.astimezone(timezone('US/Pacific'))
+    pst = utc.astimezone(timezone('US/Pacific'))
     if tz == 'pst':
         return pst.strftime(date_format)
     elif tz == 'utc':
