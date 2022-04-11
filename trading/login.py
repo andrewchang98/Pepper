@@ -23,16 +23,12 @@ def prompter(printer=None, message=":"):
 
 
 def sms_alert(sender, receiver, alert='!ALERT! '):
-    try:
-        time = datetime.now(timezone.utc)
-        timestr = time.strftime('%I:%M%p %w %d %Y')
-        body = client.messages.create(
-            to=receiver,
-            from=sender,
-            body=alert+timestr)
-        return True
-    except:
-        pass
+    time = datetime.now(timezone.utc)
+    timestr = time.strftime('%I:%M%p %w %d %Y')
+    body = client.messages.create(
+        to=receiver,
+        from_=sender,
+        body=alert+timestr)
 
 
 def read_input(response, *args):
@@ -61,13 +57,10 @@ def auto_login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer("\nalpaca_key_dict not properly configured in \
                          ~/Trading/trading/passwords.py")
         slow.printer("Connecting to Alpaca...")
-        alpaca = REST(APCA_API_KEY_ID,
-                      APCA_API_SECRET_KEY,
+        alpaca = REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
                       APCA_API_BASE_URL)
-        stream = Stream(APCA_API_KEY_ID,
-                        APCA_API_SECRET_KEY,
-                        APCA_API_BASE_URL,
-                        data_feed=data_feed)
+        stream = Stream(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
+                        APCA_API_BASE_URL, data_feed=data_feed)
         slow.printer("Logged in as: {}".format(APCA_API_KEY_ID))
         account = alpaca.get_account()
         slow.printer("Your account status: {}".format(account.status))
@@ -84,11 +77,9 @@ def auto_login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer("\ntwilio_key_dict not properly configured in \
                          ~/Trading/trading/passwords.py")
 
-        twilio = Client(twilio_key_dict['acc_key'],
-                        twilio_key_dict['auth_key'])
+        twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
 
-        if not sms_alert(twilio_key_dict['phone_num'],
-                         twilio_key_dict['user_num'],
+        if not sms_alert(TWLO_PHONE_NUM, TWLO_USER_NUM,
                          alert="You have logged into Twilio "):
             slow.printer("!!! SMS ALERTS FAILED. !!! \
                          CHECK CODE IMMEDIATELY !!!")
