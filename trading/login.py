@@ -119,8 +119,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Asks for new Alpaca keys if Alpaca keys could not be loaded
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
+            slow.printer("\nError loading Alpaca keys from ~/Trading/trading:")
             slow.printer(str(error))
-            slow.printer("\nError loading Alpaca keys from ~/Trading/trading")
             APCA_API_KEY_ID, \
             APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
         # Compile/recompile Alpaca key dictionary
@@ -157,7 +157,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(f"Your account status: {account.status}")
         # Exit if authentication fails
         except HTTPError as error:
-            slow.printer("Error occurred during Alpaca login. Retry")
+            slow.printer("Error occurred during Alpaca login:")
             slow.printer(str(error))
             exit(slow.printer)
         # Save Alpaca keys if successful
@@ -173,7 +173,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 slow.printer("Alpaca keys not saved.")
         # Print error but do not exit script if exception is raised
         except (AttributeError, ImportError, KeyError) as error:
-                slow.printer("Alpaca keys not saved due to Error!")
+                slow.printer("Alpaca keys not saved due to Error:")
                 slow.printer(str(error))
         # Load Twilio keys
         try:
@@ -191,8 +191,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Asks for new keys if Twilio keys could not be loaded
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
+            slow.printer("\nError loading Twilio keys from ~/Trading/trading:")
             slow.printer(str(error))
-            slow.printer("\nError loading Twilio keys from ~/Trading/trading")
             TWLO_SID_KEY, \
             TWLO_AUTH_TOKEN, \
             TWLO_PHONE_NUM, \
@@ -225,8 +225,9 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
         # Exit and print error if Twilio fails
         except TwilioRestException as error:
+            slow.printer(f"Error occured while sending alert to \
+                         {TWLO_USER_NUM}:")
             slow.printer(str(error))
-            slow.printer(f"! Could not sent alert to {TWLO_USER_NUM} !")
             exit(slow.printer)
         # Save Twilio keys if successful
         try:
@@ -240,7 +241,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 slow.printer("Twilio Login not saved.")
         # Print error but do not exit script if exception is raised
         except (AttributeError, ImportError, KeyError) as error:
-            slow.printer("Twilio keys not saved due to Error!")
+            slow.printer("Twilio keys not saved due to Error:")
             slow.printer(str(error))
     # Exit gracefully if KeyboardInterrupt is raised.
     except KeyboardInterrupt:
