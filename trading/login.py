@@ -91,11 +91,6 @@ def input_confirmation(message="Continue (y/n)?", printer=print) -> bool:
     else:
         return input_confirmation(printer)
 
-
-def exit(printer=print, code=0) -> None:
-    printer("Exiting now.")
-    sys.exit(code)
-
 # The Alpaca + Twilio Login Function that does it all
 def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
@@ -278,8 +273,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(str(error))
     # Exit gracefully if KeyboardInterrupt is raised.
     except KeyboardInterrupt:
-        slow.printer("\nLogin cancelled by user.")
-        exit(slow.printer)
+        slow.printer("\nLogin cancelled by user.\nExiting Now.")
+        sys.exit(0)
     # Return tuple of necessary objects
     else:
         return alpaca, stream, twilio
