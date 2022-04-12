@@ -31,18 +31,18 @@ from utilities.Printer import Printer
 # Ask for Alpaca Credentials in the CLI
 def alpaca_prompter(printer=print) -> tuple:
     printer("Log into Alpaca:")
-    printer("\nAccount Key:", end=' ')
+    printer("\API Key ID:", end=' ')
     acc_key = input()
-    printer("Authorization Key:", end=' ')
+    printer("Secret Key:", end=' ')
     auth_key = getpass(prompt='')
     return acc_key, auth_key
 
 # Ask for Twilio Credentials in the CLI
 def twilio_prompter(printer=print) -> tuple:
     printer("Log into Twilio:")
-    printer("\nAccount Key:", end=' ')
+    printer("\nAccount SID:", end=' ')
     acc_key = input()
-    printer("Authorization Key:", end=' ')
+    printer("Auth Token:", end=' ')
     auth_key = getpass(prompt='')
     printer("Twilio Phone Number:", end=' ')
     phone_num = input()
