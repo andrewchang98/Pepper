@@ -23,7 +23,7 @@ from sys import stdout, exit
 from time import sleep
 
 class Printer:
-    def __init__(self, char_per_sec=50, disabled=False) -> None:
+    def __init__(self, char_per_sec=50, disabled=False):
         self.disabled = disabled
         if char_per_sec < 1:
             char_per_sec = 1
