@@ -46,7 +46,7 @@ def get_timestr(tz='pst') -> str:
         raise TypeError("Not a recognized timezone.")
 
 
-def sms_alert(client, sender, receiver, alert="!ALERT!", printer=print) -> None:
+def sms_alert(client, sender, receiver, alert="!ALERT!", printer=print) -> bool:
     try:
         date_format = ' %I:%M%p %w %d %Y'
         timestr = get_timestr('pst')
@@ -54,22 +54,23 @@ def sms_alert(client, sender, receiver, alert="!ALERT!", printer=print) -> None:
             to=receiver,
             from_=sender,
             body=alert+timestr)
+        return True
     except TwilioRestException as error:
         printer("Error! SMS Alert could not be sent!")
         printer(str(error))
-        exit()
+        return False
 
 
 
 
-def read_input(response, *args):
+def read_input(response, *args) -> bool:
     for char in args:
         if response == char:
             return True
     return False
 
 
-def input_confirmation(printer=print):
+def input_confirmation(printer=print) -> bool:
     printer("Continue (y/n)?", end=' ')
     response = input()
     if read_input(response, 'y', 'Y'):
@@ -80,13 +81,13 @@ def input_confirmation(printer=print):
         return input_confirmation(printer)
 
 
-def exit(printer=print, code=0):
+def exit(printer=print, code=0) -> None:
     printer("Exiting now.")
     sys.exit(code)
 
 
 def auto_login(APCA_API_BASE_URL='https://paper-api.alpaca.markets',
-               data_feed='sip', disable_slow_print=False):
+               data_feed='sip', disable_slow_print=False) -> tuple:
     try:
         slow = Printer(char_per_sec=50, disabled=disable_slow_print)
         try:
@@ -152,7 +153,7 @@ def auto_login(APCA_API_BASE_URL='https://paper-api.alpaca.markets',
 
 
 def manual_login_alpaca(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
-               data_feed='sip', disable_slow_print=False):
+               data_feed='sip', disable_slow_print=False) -> tuple:
     try:
         slow = Printer(char_per_sec=50, disabled=disable_slow_print)
         APCA_API_KEY_ID, APCA_API_SECRET_KEY = \
@@ -191,7 +192,7 @@ def manual_login_alpaca(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
 
 
 def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
-               data_feed='sip', disable_slow_print=False):
+               data_feed='sip', disable_slow_print=False) -> tuple:
     try:
         slow = Printer(char_per_sec=50, disabled=disable_slow_print)
         try:
@@ -263,7 +264,7 @@ class Connection:
                 self,
                  APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                  locked=False
-                 ):
+                 ) -> None:
         alpaca, stream, twilio, slow = login()
         self.alpaca = alpaca
         self.stream = stream
@@ -274,18 +275,18 @@ class Connection:
         self.slow.printer("Connection successful: " + self.timestamp)
 
 
-    def lock(self):
+    def lock(self) -> bool:
         self.locked = True
         self.slow.printer("Connection locked.")
         return self.locked
 
 
-    def unlock(self):
+    def unlock(self) -> bool:
         self.locked = False
         self.slow.printer("Connection unlocked.")
         return self.locked
 
 
 
-    def get_start_time(self):
+    def get_start_time(self) -> str:
         return self.slow.printer(self.timestamp)
