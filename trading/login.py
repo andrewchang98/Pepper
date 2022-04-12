@@ -99,22 +99,23 @@ def login(
           data_feed='sip',
           disable_slow_print=False
          ) -> tuple:
+
     try:
         slow = Printer(char_per_sec=50, disabled=disable_slow_print)
-        
+
         try:
             from passwords import alpaca_key_dict
             APCA_API_KEY_ID = alpaca_key_dict['acc_key']
             APCA_API_SECRET_KEY = alpaca_key_dict['auth_key']
-            slow.printer("Found Alpaca account: {}".format(APCA_API_KEY_ID))
+            slow.printer(f"Found Alpaca account: {APCA_API_KEY_ID}")
             if not input_confirmation(slow.printer):
                 APCA_API_KEY_ID, APCA_API_SECRET_KEY = \
                     alpaca_prompter(slow.printer)
         except (ImportError, KeyError):
             slow.printer("\nError loading <alpaca_key_dict> from \
                          ~/Trading/trading/passwords.py")
-            APCA_API_KEY_ID, APCA_API_SECRET_KEY = \
-                alpaca_prompter(slow.printer)
+            APCA_API_KEY_ID,
+            APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
 
         slow.printer("Connecting to Alpaca...")
 
@@ -129,8 +130,8 @@ def login(
 
         try:
             account = alpaca.get_account()
-            slow.printer("Logged in as: {}".format(APCA_API_KEY_ID))
-            slow.printer("Your account status: {}".format(account.status))
+            slow.printer(f"Logged in as: {APCA_API_KEY_ID}")
+            slow.printer(f"Your account status: {account.status}")
         except HTTPError as err:
             slow.printer("Error occurred during Alpaca login.")
             slow.printer(str(err))
@@ -141,10 +142,12 @@ def login(
             TWLO_AUTH_TOKEN = twilio_key_dict['auth_key']
             TWLO_PHONE_NUM = twilio_key_dict['phone_num']
             TWLO_USER_NUM = twilio_key_dict['user_num']
-            slow.printer("Found Twilio account: {}".format(TWLO_SID_KEY))
+            slow.printer(f"Found Twilio account: {TWLO_SID_KEY}")
             if not input_confirmation(slow.printer):
-                TWLO_SID_KEY, TWLO_AUTH_TOKEN, TWLO_PHONE_NUM, TWLO_USER_NUM = \
-                    twilio_prompter(slow.printer)
+                TWLO_SID_KEY,
+                TWLO_AUTH_TOKEN,
+                TWLO_PHONE_NUM,
+                TWLO_USER_NUM = twilio_prompter(slow.printer)
         except (ImportError, KeyError):
             slow.printer("\nError loading <twilio_key_dict> from \
                          ~/Trading/trading/passwords.py")
@@ -157,9 +160,9 @@ def login(
             slow.printer("\nEnsure all entered values are <class 'str'>")
             exit(slow.printer)
         hostname = socket.gethostname()
-        sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
-                  alert="ALERT! Logged in on: {}".format(hostname))
-        slow.printer("Alert sent to: {}".format(TWLO_USER_NUM))
+        if sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
+                     alert=f"ALERT! Logged in on: {hostname}")
+        slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
 
     except KeyboardInterrupt:
         slow.printer("\nLogin cancelled by user.")
