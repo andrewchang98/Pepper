@@ -69,11 +69,10 @@ def sms_alert(twilio: Client,
               receiver: str,
               alert="!ALERT!",
               printer=print) -> None:
-    date_format = ' %I:%M%p %w %d %Y'
-    timestr = get_timestr('pst')
+    timestr = get_timestr('pst', date_format='%I:%M%p %w %d %Y')
     body = twilio.messages.create(to=receiver,
                                   from_=sender,
-                                  body=alert+timestr)
+                                  body=alert+' '+timestr)
 
 def read_input(response: str, *args: str) -> bool:
     for char in args:
@@ -166,7 +165,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             exit(slow.printer)
         # Save Alpaca keys if successful
         try:
-            if from_alpaca_save:
+            if not from_alpaca_save:
                 # Ask to save new Alpaca keys and replace old Alpaca keys
                 if input_confirmation("Save Alpaca Login? This will " + \
                                       "replace any previously saved keys. " + \
@@ -241,7 +240,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             exit(slow.printer)
         # Save Twilio keys if successful
         try:
-            if from_twilio_save:
+            if not from_twilio_save:
                 # Ask to save new Twilio keys and replace old Twilio keys
                 if input_confirmation("Save Twilio Login? This will replace" + \
                                       " any previously saved keys. (y/n)?",
