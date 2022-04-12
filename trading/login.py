@@ -241,12 +241,12 @@ class Connection:
                  data_feed='sip',
                  locked=False
                 ) -> None:
-        alpaca, stream, twilio, slow = login()
-        self.alpaca = alpaca
-        self.stream = stream
-        self.twilio = twilio
+        self.alpaca,
+        self.stream,
+        self.twilio,
+        self.slow = login(APCA_API_BASE_URL, data_feed)
+
         self.locked = locked
-        self.slow = slow
         self.timestamp = get_timestr()
         self.slow.printer("Connection successful: " + self.timestamp)
 
@@ -264,4 +264,4 @@ class Connection:
         return self.locked
 
     def get_start_time(self) -> str:
-        return self.slow.printer(self.timestamp)
+        return self.timestamp
