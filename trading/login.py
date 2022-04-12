@@ -261,7 +261,7 @@ class Connection:
         self.alpaca, \
         self.stream, \
         self.twilio, \
-        self.slow = login(base_url=base_url,
+        self.slow = login(APCA_API_KEY_ID=base_url,
                           data_feed=data_feed,
                           disable_slowprint=False)
         self.locked = locked
