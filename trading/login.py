@@ -1,5 +1,6 @@
 import sys
 import socket
+import pickle
 import pytz
 from pytz import timezone
 from getpass import getpass
@@ -12,7 +13,7 @@ from alpaca_trade_api.stream import Stream
 from slowprinter import Printer
 
 # Ask for Alpaca Credentials in the CLI
-def alpaca_prompter(printer=print) -> tuple:
+def alpaca_prompter(printer:Printer=print) -> tuple:
     printer("Log into Alpaca:")
     printer("\nAccount Key:", end=' ')
     acc_key = input()
@@ -21,7 +22,7 @@ def alpaca_prompter(printer=print) -> tuple:
     return acc_key, auth_key
 
 # Ask for Twilio Credentials in the CLI
-def twilio_prompter(printer=print) -> tuple:
+def twilio_prompter(printer:Printer=print) -> tuple:
     printer("Log into Twilio:")
     printer("\nAccount Key:", end=' ')
     acc_key = input()
@@ -33,9 +34,13 @@ def twilio_prompter(printer=print) -> tuple:
     user_num = input()
     return acc_key, auth_key, phone_num, user_num
 
+# Save user keys to 'passwords.py'
+def save_keys:
 
-def get_timestr(tz='pst') -> str:
-    date_format='%I:%M:%S%p %m/%d/%Y %Z'
+# Get UTC and convert to PST string following date_format argument
+# Returns unconverted UTC if tz='utc'
+# Raises a TypeError if tz != 'pst' or tz != 'utc'
+def get_timestr(tz:str='pst', date_format:str='%I:%M:%S%p %m/%d/%Y %Z') -> str:
     utc = datetime.now(tz=pytz.utc)
     pst = utc.astimezone(timezone('US/Pacific'))
     if tz == 'pst':
@@ -45,8 +50,13 @@ def get_timestr(tz='pst') -> str:
     else:
         raise TypeError("Not a recognized timezone.")
 
-
-def sms_alert(client, sender, receiver, alert="!ALERT!", printer=print) -> bool:
+# Sends SMS alert
+def sms_alert(twilio:Client,
+              sender:str,
+              receiver:str,
+              alert:str="!ALERT!",
+              printer:function=print
+             ) -> bool:
     try:
         date_format = ' %I:%M%p %w %d %Y'
         timestr = get_timestr('pst')
@@ -61,16 +71,14 @@ def sms_alert(client, sender, receiver, alert="!ALERT!", printer=print) -> bool:
         return False
 
 
-
-
-def read_input(response, *args) -> bool:
+def read_input(response:str, *args:str) -> bool:
     for char in args:
         if response == char:
             return True
     return False
 
 
-def input_confirmation(printer=print) -> bool:
+def input_confirmation(printer:Printer=print) -> bool:
     printer("Continue (y/n)?", end=' ')
     response = input()
     if read_input(response, 'y', 'Y'):
@@ -81,7 +89,7 @@ def input_confirmation(printer=print) -> bool:
         return input_confirmation(printer)
 
 
-def exit(printer=print, code=0) -> None:
+def exit(printer:Printer=print, code=0) -> None:
     printer("Exiting now.")
     sys.exit(code)
 
@@ -149,7 +157,7 @@ def auto_login(APCA_API_BASE_URL='https://paper-api.alpaca.markets',
         raise
         exit(slow.printer)
     else:
-        return alpaca, stream, twilio
+        return alpaca, stream, twilio, slow
 
 
 def manual_login_alpaca(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
@@ -188,11 +196,14 @@ def manual_login_alpaca(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         raise
         exit(slow.printer)
     else:
-        return alpaca, stream, twilio
+        return alpaca, stream, twilio, slow
 
-
-def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
-               data_feed='sip', disable_slow_print=False) -> tuple:
+# The Alpaca + Twilio Login Function that does it all
+def login(
+          APCA_API_BASE_URL="https://paper-api.alpaca.markets",
+          data_feed='sip',
+          disable_slow_print=False
+         ) -> tuple:
     try:
         slow = Printer(char_per_sec=50, disabled=disable_slow_print)
         try:
@@ -261,10 +272,11 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
 
 class Connection:
     def __init__(
-                self,
+                 self,
                  APCA_API_BASE_URL="https://paper-api.alpaca.markets",
+                 data_feed='sip',
                  locked=False
-                 ) -> None:
+                ) -> None:
         alpaca, stream, twilio, slow = login()
         self.alpaca = alpaca
         self.stream = stream
