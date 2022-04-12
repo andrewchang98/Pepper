@@ -21,11 +21,7 @@ def alpaca_prompter(printer=print) -> tuple:
     return acc_key, auth_key
 
 # Ask for Twilio Credentials in the CLI
-def twilio_prompter(printer=None) -> tuple:
-    if printer is None:
-        printer = print
-    else:
-        printer = printer
+def twilio_prompter(printer=print) -> tuple:
     printer("Log into Twilio:")
     printer("\nAccount Key:", end=' ')
     acc_key = input()
@@ -58,7 +54,10 @@ def sms_alert(client, sender, receiver, alert="!ALERT!", printer=print) -> None:
             to=receiver,
             from_=sender,
             body=alert+timestr)
-    except TwilioRestException as err:
+    except TwilioRestException as error:
+        printer("Error! SMS Alert could not be sent!")
+        printer(str(error))
+        exit()
 
 
 
@@ -83,8 +82,8 @@ def input_confirmation(printer=None):
         return input_confirmation(printer)
 
 
-def exit(slow, code=0):
-    slow.printer("Exiting now.")
+def exit(printer=print, code=0):
+    printer("Exiting now.")
     sys.exit(code)
 
 
@@ -99,11 +98,11 @@ def auto_login(APCA_API_BASE_URL='https://paper-api.alpaca.markets',
         except ImportError:
             slow.printer("\n~/Trading/trading/passwords.py is missing \
                          alpaca_key_dict")
-            exit(slow)
+            exit(slow.printer)
         except KeyError:
             slow.printer("\nalpaca_key_dict not properly configured in \
                          ~/Trading/trading/passwords.py")
-            exit(slow)
+            exit(slow.printer)
         slow.printer("Connecting to Alpaca...")
         try:
             alpaca = REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
@@ -113,7 +112,7 @@ def auto_login(APCA_API_BASE_URL='https://paper-api.alpaca.markets',
         except TypeError:
             slow.printer("\nEnsure all twilio_key_dict values in \
                          ~/Trading/trading/passwords.py are <class 'str'>")
-            exit(slow)
+            exit(slow.printer)
         slow.printer("Logged in as: {}".format(APCA_API_KEY_ID))
         account = alpaca.get_account()
         slow.printer("Your account status: {}".format(account.status))
@@ -126,30 +125,30 @@ def auto_login(APCA_API_BASE_URL='https://paper-api.alpaca.markets',
         except ImportError:
             slow.printer("\n~/Trading/trading/passwords.py is missing \
                          twilio_key_dict")
-            exit(slow)
+            exit(slow.printer)
         except KeyError:
             slow.printer("\ntwilio_key_dict not properly configured in \
                          ~/Trading/trading/passwords.py")
-            exit(slow)
+            exit(slow.printer)
         try:
             twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
         except TypeError:
             slow.printer("\nEnsure all twilio_key_dict values in \
                          ~/Trading/trading/passwords.py are <class 'str'>")
-            exit(slow)
+            exit(slow.printer)
         sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
                   alert="TradingBot has started!")
         slow.printer("Message sent to: {}".format(TWLO_USER_NUM))
     except KeyboardInterrupt:
         slow.printer("\nLogin cancelled by user.")
-        exit(slow)
+        exit(slow.printer)
     except ImportError:
         slow.printer("\n~/Trading/trading/passwords.py not found.")
-        exit(slow)
+        exit(slow.printer)
     except HTTPError:
         slow.printer("\nHTTPError: Failed to connect. Check if keys are valid.")
         raise
-        exit(slow)
+        exit(slow.printer)
     else:
         return alpaca, stream, twilio
 
@@ -159,7 +158,7 @@ def manual_login_alpaca(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
     try:
         slow = Printer(char_per_sec=50, disabled=disable_slow_print)
         APCA_API_KEY_ID, APCA_API_SECRET_KEY = \
-            alpaca_prompter(slow)
+            alpaca_prompter(slow.printer)
         slow.printer("Connecting to Alpaca...")
         try:
             alpaca = REST(APCA_API_KEY_ID, APCA_API_SECRET_KEY,
@@ -168,27 +167,27 @@ def manual_login_alpaca(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                             APCA_API_BASE_URL, data_feed=data_feed)
         except TypeError:
             slow.printer("\nEnsure all entered values are <class 'str'>")
-            exit(slow)
+            exit(slow.printer)
         slow.printer("Logged in as: {}".format(APCA_API_KEY_ID))
         account = alpaca.get_account()
         slow.printer("Your account status: {}".format(account.status))
         TWLO_SID_KEY, TWLO_AUTH_TOKEN, TWLO_PHONE_NUM, TWLO_USER_NUM = \
-            twilio_prompter(slow)
+            twilio_prompter(slow.printer)
         try:
             twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
         except TypeError:
             slow.printer("\nEnsure all entered values are <class 'str'>")
-            exit(slow)
+            exit(slow.printer)
         sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
                   alert="TradingBot has started!")
         slow.printer("Alert sent to: {}".format(TWLO_USER_NUM))
     except KeyboardInterrupt:
         slow.printer("\nLogin cancelled by user.")
-        exit(slow)
+        exit(slow.printer)
     except HTTPError:
         slow.printer("\nHTTPError: Failed to connect. Check if keys are valid.")
         raise
-        exit(slow)
+        exit(slow.printer)
     else:
         return alpaca, stream, twilio
 
@@ -218,7 +217,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                             APCA_API_BASE_URL, data_feed=data_feed)
         except TypeError:
             slow.printer("\nEnsure all entered values are <class 'str'>")
-            exit(slow)
+            exit(slow.printer)
         try:
             account = alpaca.get_account()
             slow.printer("Logged in as: {}".format(APCA_API_KEY_ID))
@@ -245,18 +244,18 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
         except TypeError:
             slow.printer("\nEnsure all entered values are <class 'str'>")
-            exit(slow)
+            exit(slow.printer)
         hostname = socket.gethostname()
         sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
                   alert="ALERT! Logged in on: {}".format(hostname))
         slow.printer("Alert sent to: {}".format(TWLO_USER_NUM))
     except KeyboardInterrupt:
         slow.printer("\nLogin cancelled by user.")
-        exit(slow)
+        exit(slow.printer)
     except HTTPError:
         slow.printer("\nHTTPError: Failed to connect. Check if keys are valid.")
         raise
-        exit(slow)
+        exit(slow.printer)
     else:
         return alpaca, stream, twilio, slow
 
