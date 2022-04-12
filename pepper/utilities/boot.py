@@ -6,7 +6,11 @@ Prompts manual user for service if respective .key file is not found.
 
 !!! NEVER SHARE YOUR *.key FILES !!!
 
-This file also contains helper functions such as sms_alert()
+This file also contains helper functions such as:
+
+get_timestr(tz, date_format)
+
+def sms_alert(twilio, sender, receiver, alert, printer)
 
 """
 
