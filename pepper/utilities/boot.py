@@ -69,7 +69,7 @@ def is_str_dictionary(dict):
     return True
 
 # Get datetime in PST or UTC
-def get_datetime(tz='pst') -> datetime.datetime):
+def get_datetime(tz='pst' -> datetime.datetime):
     utc = datetime.now(tz=pytz.utc)
     pst = utc.astimezone(timezone('US/Pacific'))
     if tz == 'pst':
