@@ -299,6 +299,8 @@ class Connection:
         self.locked = locked
         self.timestamp = get_timestr()
         self.slow.printer("Connection successful: " + self.timestamp)
+        self.it = 'this'
+        self.everything = f'*** {it}'
 
     # Set lock attribute to True
     def lock(self) -> None:
