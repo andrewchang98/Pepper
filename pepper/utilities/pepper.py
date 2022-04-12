@@ -1,4 +1,9 @@
-# Pepper class stores outputs of Boot and provides 
+"""
+Pepper class stores outputs of Boot
+Provides an abstraction layer above the Alpaca API
+
+"""
+
 class Connection:
     def __init__(
                  self,
