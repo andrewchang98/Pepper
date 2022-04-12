@@ -1,4 +1,9 @@
 """
+ ___________________________________________________________
+|   !!! DANGER !!!                                          |
+|   NEVER SHARE OR STORE THIS FILE PUBLICLY AFTER EDITING   |
+|___________________________________________________________|
+
 Optional example password file imported by 'login.py'
 If file cannot be imported or key dictionaries are improperly formatted,
 'login.py' will ask the user to input proper credentials.
@@ -11,11 +16,13 @@ $ sudo cp passwords_example.py passwords.py
 $ cd ~/Trading/trading
 $ sudo nano passwords.py
 
-(3) EDIT 'alpha_key_dict' and 'twilio_key_dict':
-    NOTE: All user info MUST BE <class 'str'>!
+(3) EDIT VALUES IN 'alpha_key_dict' and 'twilio_key_dict':
+NOTE: All user info MUST BE <class 'str'>!
 """
 
-# PASSWORD DICTIONARY FILE
+# Password Dictionary File
+# DO NOT STORE THIS FILE PUBLICLY!
+# NEVER SHARE YOUR ACCOUNT INFORMATION!
 alpaca_key_dict = {
                    'acc_key'  : '<APCA_API_KEY_ID>',
                    'auth_key' : '<APCA_API_SECRET_KEY>'
