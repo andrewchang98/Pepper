@@ -7,7 +7,7 @@ Provides an abstraction layer above the Alpaca API
 from utilities.boot import begin
 from utilities.boot import sms_alert
 from utilities.boot import get_datetime
-from utilities.slowprinter import Printer
+from utilities.Printer import Printer
 
 class Pepper:
     def __init__(self,
