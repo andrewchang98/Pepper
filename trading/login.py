@@ -292,6 +292,7 @@ class Connection:
                  data_feed='sip',
                  locked=False
                 ) -> None:
+        self.slow = Printer()
         self.alpaca, \
         self.stream, \
         self.twilio = login(APCA_API_KEY_ID,
@@ -301,9 +302,9 @@ class Connection:
                             max_attempts=3)
         self.locked = locked
         self.timestamp = get_timestr()
-        self.slow.printer("Connection successful: " + self.timestamp)
         self.it = 'this'
         self.everything = f'*** {it}'
+        self.slow.printer("Connection successful: " + self.timestamp)
 
     # Set lock attribute to True
     def lock(self) -> None:
