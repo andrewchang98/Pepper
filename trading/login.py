@@ -254,17 +254,16 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
 class Connection:
     def __init__(
                  self,
-                 APCA_API_BASE_URL="https://paper-api.alpaca.markets",
+                 base_url="https://paper-api.alpaca.markets",
                  data_feed='sip',
                  locked=False
                 ) -> None:
-        alpaca, stream, twilio, slow = login(APCA_API_BASE_URL,
-                                             data_feed,
-                                             disable_slowprint=False)
-        self.alpaca,
-        self.stream,
-        self.twilio,
-        self.slow =
+        self.alpaca, \
+        self.stream, \
+        self.twilio, \
+        self.slow = login(base_url=base_url,
+                          data_feed=data_feed,
+                          disable_slowprint=False)
         self.locked = locked
         self.timestamp = get_timestr()
         self.slow.printer("Connection successful: " + self.timestamp)
