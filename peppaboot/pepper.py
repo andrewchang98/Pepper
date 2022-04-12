@@ -1,5 +1,5 @@
 from utilities import boot
-from utilties.slowprinter import Printer
+from utilities import slowprinter.Printer
 
 slow = Printer()
 
