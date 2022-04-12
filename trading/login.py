@@ -147,18 +147,17 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Connect to Alpaca and get status
         try:
             # Instantiate Alpaca REST and Stream
-            try:
-                alpaca = REST(
-                              APCA_API_KEY_ID,
-                              APCA_API_SECRET_KEY,
-                              APCA_API_BASE_URL
-                             )
-                stream = Stream(
-                                APCA_API_KEY_ID,
-                                APCA_API_SECRET_KEY,
-                                APCA_API_BASE_URL,
-                                data_feed=data_feed
-                               )
+            alpaca = REST(
+                          APCA_API_KEY_ID,
+                          APCA_API_SECRET_KEY,
+                          APCA_API_BASE_URL
+                         )
+            stream = Stream(
+                            APCA_API_KEY_ID,
+                            APCA_API_SECRET_KEY,
+                            APCA_API_BASE_URL,
+                            data_feed=data_feed
+                           )
             slow.printer("Connecting to Alpaca...")
             account = alpaca.get_account()
             slow.printer(f"Logged in as: {APCA_API_KEY_ID}")
