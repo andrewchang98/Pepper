@@ -1,15 +1,18 @@
 """
 Optional example password file imported by 'login.py'
 If file cannot be imported or key dictionaries are improperly formatted,
-'login.py' will ask the user to input proper credentials. 
+'login.py' will ask the user to input proper credentials.
 
-(1): COPY THIS FILE TO 'passwords.py'
+(1) COPY THIS FILE TO 'passwords.py':
 $ cd ~/Trading/trading
 $ sudo cp passwords_example.py passwords.py
 
-(2): EDIT 'passwords.py'
+(2) OPEN 'passwords.py':
 $ cd ~/Trading/trading
 $ sudo nano passwords.py
+
+(3) EDIT 'alpha_key_dict' and 'twilio_key_dict':
+    NOTE: All user info MUST BE <class 'str'>!
 """
 
 # PASSWORD DICTIONARY FILE
