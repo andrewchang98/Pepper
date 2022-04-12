@@ -5,6 +5,6 @@ slow = Printer()
 
 # LOGIN AND ASSIGN ALPACA AND STREAM OBJECTS
 try:
-    bot = login.Connection()
+    bot = boot.Connection()
 except RecursionError as error:
     slow.printer(str(error))
