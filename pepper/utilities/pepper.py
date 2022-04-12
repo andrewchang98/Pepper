@@ -6,7 +6,7 @@ Provides an abstraction layer above the Alpaca API
 
 from utilities.boot import begin
 from utilities.boot import sms_alert
-from utilities.boot import get_timestr
+from utilities.boot import get_datetime
 from utilities.pepper import Pepper
 from utilities.slowprinter import Printer
 
@@ -14,20 +14,28 @@ class Pepper:
     def __init__(self,
                  APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                  data_feed='sip',
+                 tz='pst',
                  disable_slowprinter=False):
         self.alpaca, \
         self.stream, \
         self.twilio = begin(APCA_API_BASE_URL, data_feed, disable_slowprinter)
         self.locked = True
-        self.timestamp = get_timestr()
+        self.timezone = tz
+        self.timestamp = get_datetime(tz))
+        self.slow = Printer(50, disable_slowprinter)
 
     def lock(self) -> None:
         self.locked = True
+        self.slow.printer("Pepper cannot hunt.")
 
     def unlock(self) -> None:
         self.locked = False
+        self.slow.printer("Pepper can hunt!")
 
     def pounce():
+        self.slow.printer("Pepper is getting ready to pounce...")
+        self.slow.printer("Pepper decided to pounce!")
+        self.slow.printer("Pepper missed! 'Meow!'")
         pass
 
     def drop():
@@ -35,6 +43,12 @@ class Pepper:
 
     def hunt():
         pass
+
+    def panic():
+        pass
+
+    def ohyep(message="Oh yep, pep!") -> None:
+        self.slow.printer(message)
 
 
 
