@@ -144,26 +144,27 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                                'acc_key' : APCA_API_KEY_ID,
                                'auth_key': APCA_API_SECRET_KEY
                               }
-        # Instantiate Alpaca REST and Stream
-        alpaca = REST(
-                      APCA_API_KEY_ID,
-                      APCA_API_SECRET_KEY,
-                      APCA_API_BASE_URL
-                     )
-        stream = Stream(
-                        APCA_API_KEY_ID,
-                        APCA_API_SECRET_KEY,
-                        APCA_API_BASE_URL,
-                        data_feed=data_feed
-                       )
         # Connect to Alpaca and get status
         try:
+            # Instantiate Alpaca REST and Stream
+            try:
+                alpaca = REST(
+                              APCA_API_KEY_ID,
+                              APCA_API_SECRET_KEY,
+                              APCA_API_BASE_URL
+                             )
+                stream = Stream(
+                                APCA_API_KEY_ID,
+                                APCA_API_SECRET_KEY,
+                                APCA_API_BASE_URL,
+                                data_feed=data_feed
+                               )
             slow.printer("Connecting to Alpaca...")
             account = alpaca.get_account()
             slow.printer(f"Logged in as: {APCA_API_KEY_ID}")
             slow.printer(f"Your account status: {account.status}")
         # Exit if authentication fails
-        except HTTPError as error:
+        except (HTTPError, ValueError) as error:
             slow.printer("Error occurred during Alpaca login:")
             slow.printer(str(error))
             # Recurse login with one less login attempt
@@ -244,7 +245,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                       alert=f"ALERT! Logged in on: {socket.gethostname()}")
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
         # Exit and print error if Twilio fails
-        except TwilioRestException as error:
+    except (TwilioRestException, ValueError) as error:
             slow.printer("Error occured while sending alert to " + \
                          f"{TWLO_USER_NUM}:")
             slow.printer(str(error))
