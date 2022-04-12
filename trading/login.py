@@ -189,7 +189,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             TWLO_USER_NUM = twilio_key_dict['user_num']
             slow.printer(f"Found Twilio account: {TWLO_SID_KEY}")
             from_twilio_save = True
-            if not input_confirmation(slow.printer):
+            if not input_confirmation("Continue with loaded account (y/n)?",
+                                      slow.printer):
                 from_twilio_save = False
                 TWLO_SID_KEY, \
                 TWLO_AUTH_TOKEN, \
