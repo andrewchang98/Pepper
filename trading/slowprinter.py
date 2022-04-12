@@ -36,7 +36,7 @@ class Printer:
             if self.disabled:
                 print(message, end=end)
             else:
-                for char in string:
+                for char in message:
                     stdout.write(char)
                     stdout.flush()
                     sleep(self.delay)
