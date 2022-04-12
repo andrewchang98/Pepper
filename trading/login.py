@@ -100,11 +100,11 @@ def exit(printer=print, code=0) -> None:
 # The Alpaca + Twilio Login Function that does it all
 def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
-          disable_slow_print=False) -> tuple:
+          disable_slowprint=False) -> tuple:
 
     try:
         # Instantiate char by char printer
-        slow = Printer(char_per_sec=50, disabled=disable_slow_print)
+        slow = Printer(char_per_sec=50, disabled=disable_slowprint)
         # Load Alpaca keys
         try:
             alpaca_key_dict = load_key_dict('alpaca.key')
@@ -114,14 +114,14 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             # Asks for new keys if User declines loaded keys
             if not input_confirmation("Continue with loaded account (y/n)?",
                                       slow.printer):
-                APCA_API_KEY_ID,
+                APCA_API_KEY_ID, \
                 APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
         # Asks for new Alpaca keys if Alpaca keys could not be loaded
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
             slow.printer(str(error))
             slow.printer("\nError loading Alpaca keys from ~/Trading/trading")
-            APCA_API_KEY_ID,
+            APCA_API_KEY_ID, \
             APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
         # Compile/recompile Alpaca key dictionary
         alpaca_key_dict = {
@@ -131,7 +131,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Ask for new Alpaca keys while is_str_dictionary returns False
         while is_str_dictionary(alpaca_key_dict) is False:
             slow.printer("\nEnsure all Alpaca key values are Strings")
-            APCA_API_KEY_ID,
+            APCA_API_KEY_ID, \
             APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
             alpaca_key_dict = {
                                'acc_key' : APCA_API_KEY_ID,
@@ -184,18 +184,18 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             TWLO_USER_NUM = twilio_key_dict['user_num']
             slow.printer(f"Found Twilio account: {TWLO_SID_KEY}")
             if not input_confirmation(slow.printer):
-                TWLO_SID_KEY,
-                TWLO_AUTH_TOKEN,
-                TWLO_PHONE_NUM,
+                TWLO_SID_KEY, \
+                TWLO_AUTH_TOKEN, \
+                TWLO_PHONE_NUM, \
                 TWLO_USER_NUM = twilio_prompter(slow.printer)
         # Asks for new keys if Twilio keys could not be loaded
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
             slow.printer(str(error))
             slow.printer("\nError loading Twilio keys from ~/Trading/trading")
-            TWLO_SID_KEY,
-            TWLO_AUTH_TOKEN,
-            TWLO_PHONE_NUM,
+            TWLO_SID_KEY, \
+            TWLO_AUTH_TOKEN, \
+            TWLO_PHONE_NUM, \
             TWLO_USER_NUM = twilio_prompter(slow.printer)
         # Create/recompile Twilio key dictionary
         twilio_key_dict = {
@@ -207,9 +207,9 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Ask for new Twilio keys while is_str_dictionary returns False
         while is_str_dictionary(twilio_key_dict) is False:
             slow.printer("\nEnsure all Twilio key values are Strings")
-            TWLO_SID_KEY,
-            TWLO_AUTH_TOKEN,
-            TWLO_PHONE_NUM,
+            TWLO_SID_KEY, \
+            TWLO_AUTH_TOKEN, \
+            TWLO_PHONE_NUM, \
             TWLO_USER_NUM = alpaca_prompter(slow.printer)
             twilio_key_dict = {
                                'acc_key'  : TWLO_SID_KEY,
@@ -258,10 +258,13 @@ class Connection:
                  data_feed='sip',
                  locked=False
                 ) -> None:
+        alpaca, stream, twilio, slow = login(APCA_API_BASE_URL,
+                                             data_feed,
+                                             disable_slowprint=False)
         self.alpaca,
         self.stream,
         self.twilio,
-        self.slow = login(APCA_API_BASE_URL, data_feed)
+        self.slow =
         self.locked = locked
         self.timestamp = get_timestr()
         self.slow.printer("Connection successful: " + self.timestamp)
