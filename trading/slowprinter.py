@@ -23,15 +23,15 @@ from sys import stdout, exit
 from time import sleep
 
 class Printer:
-    def __init__(self, char_per_sec:int=50, disabled:bool=False) -> None:
+    def __init__(self, char_per_sec=50, disabled=False) -> None:
         self.disabled = disabled
         if char_per_sec < 1:
             char_per_sec = 1
         self.delay = 1 / char_per_sec
 
     # Main printer function
-    # Can only take in one string for now.
-    def printer(self, message:str, end:str='\n') -> None:
+    # NOTE: Can only take in one string for now. No separator argument.
+    def printer(self, message: str, end='\n') -> None:
         try:
             if self.disabled:
                 print(message, end=end)
@@ -44,8 +44,7 @@ class Printer:
                     stdout.write(end)
                     stdout.flush()
         except KeyboardInterrupt:
-            printer("\nCancelled by user.")
-            printer("Exiting now.")
+            printer("\nCancelled by user.\nExiting Now.")
             exit(0)
 
     # Enable slow printing
@@ -57,9 +56,9 @@ class Printer:
         self.disabled = True
 
     # Change print speed in character/second
-    def change_char_per_sec(self, char_per_sec:int=50) -> None:
+    def change_char_per_sec(self, char_per_sec=50) -> None:
         self.delay = char_per_sec
 
     # Change delay between prints directly
-    def change_delay(self, delay:float=0.02) -> None:
+    def change_delay(self, delay=0.02) -> None:
         self.delay = delay
