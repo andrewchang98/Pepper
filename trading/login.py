@@ -69,9 +69,7 @@ def read_input(response, *args):
     return False
 
 
-def input_confirmation(printer=None):
-    if printer is None:
-        printer = print
+def input_confirmation(printer=print):
     printer("Continue (y/n)?", end=' ')
     response = input()
     if read_input(response, 'y', 'Y'):
