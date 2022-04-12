@@ -68,16 +68,22 @@ def is_str_dictionary(dict):
             return False
     return True
 
-# Get UTC or PST string following date_format argument
-def get_timestr(tz='pst', date_format='%I:%M:%S %p %m/%d/%Y %Z') -> str:
+# Get datetime in PST or UTC
+def get_datetime(tz='pst') -> datetime.datetime):
     utc = datetime.now(tz=pytz.utc)
     pst = utc.astimezone(timezone('US/Pacific'))
     if tz == 'pst':
-        return pst.strftime(date_format)
-    elif tz == 'utc':
-        return utc.strftime(date_format)
+        return pst
+    if tz == 'utc':
+        return utc
     else:
         raise TypeError("Not a recognized timezone.")
+
+# Get UTC or PST string
+def get_timestr(tz='pst', date_format='%I:%M:%S %p %m/%d/%Y %Z') -> str:
+    dt = get_datetime(tz)
+    return dt.strftime(date_format)
+
 
 # Sends SMS alert
 def sms_alert(twilio: Client,

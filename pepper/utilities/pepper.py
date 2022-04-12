@@ -6,6 +6,7 @@ Provides an abstraction layer above the Alpaca API
 
 from utilities.boot import begin
 from utilities.boot import sms_alert
+from utilities.boot import get_timestr
 from utilities.pepper import Pepper
 from utilities.slowprinter import Printer
 
@@ -17,6 +18,24 @@ class Pepper:
         self.alpaca, \
         self.stream, \
         self.twilio = begin(APCA_API_BASE_URL, data_feed, disable_slowprinter)
+        self.locked = True
+        self.timestamp = get_timestr()
+
+    def lock(self) -> None:
+        self.locked = True
+
+    def unlock(self) -> None:
+        self.locked = False
+
+    def pounce():
+        pass
+
+    def drop():
+        pass
+
+    def hunt():
+        pass
+
 
 
 
