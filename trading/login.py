@@ -101,7 +101,7 @@ def exit(printer=print, code=0) -> None:
 def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
           disable_slowprint=False) -> tuple:
-
+    # Main Try clause
     try:
         # Instantiate char by char printer
         slow = Printer(char_per_sec=50, disabled=disable_slowprint)
