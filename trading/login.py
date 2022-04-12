@@ -99,7 +99,11 @@ def exit(printer=print, code=0) -> None:
 # The Alpaca + Twilio Login Function that does it all
 def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
-          disable_slowprint=False) -> tuple:
+          disable_slowprint=False,
+          max_attempts=3) -> tuple:
+    # Check max_attempts
+    if max_attempts < 1:
+        raise RecursionError("No attempts remaining.")
     # Main Try clause
     try:
         # Instantiate char by char printer
@@ -162,7 +166,13 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         except HTTPError as error:
             slow.printer("Error occurred during Alpaca login:")
             slow.printer(str(error))
-            exit(slow.printer)
+            # Recurse login with one less login attempt
+            max_attempts -= 1
+            slow.printer(f"Retry. You have {str(max_attempts)} more attempts."))
+            return login(APCA_API_BASE_URL,
+                         data_feed,
+                         disable_slowprint,
+                         max_attempts)
         # Save Alpaca keys if successful
         try:
             if not from_alpaca_save:
@@ -238,7 +248,13 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer("Error occured while sending alert to " + \
                          f"{TWLO_USER_NUM}:")
             slow.printer(str(error))
-            exit(slow.printer)
+            # Recurse login with one less login attempt
+            max_attempts -= 1
+            slow.printer(f"Retry. You have {str(max_attempts)} more attempts."))
+            return login(APCA_API_BASE_URL,
+                         data_feed,
+                         disable_slowprint,
+                         max_attempts)
         # Save Twilio keys if successful
         try:
             if not from_twilio_save:
