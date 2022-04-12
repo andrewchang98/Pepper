@@ -302,8 +302,6 @@ class Connection:
                             max_attempts=3)
         self.locked = locked
         self.timestamp = get_timestr()
-        self.it = 'this'
-        self.everything = f'*** {it}'
         self.slow.printer("Connection successful: " + self.timestamp)
 
     # Set lock attribute to True
