@@ -69,7 +69,7 @@ def sms_alert(twilio: Client,
               receiver: str,
               alert="!ALERT!",
               printer=print) -> None:
-    timestr = get_timestr('pst', date_format='%I:%M %p %w %d %Y')
+    timestr = get_timestr('pst', date_format='%I:%M %p %m/%d/%Y')
     body = twilio.messages.create(to=receiver,
                                   from_=sender,
                                   body=alert+' '+timestr)
