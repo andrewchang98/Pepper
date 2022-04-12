@@ -4,9 +4,9 @@
 |   NEVER SHARE OR STORE THIS FILE PUBLICLY AFTER EDITING   |
 |___________________________________________________________|
 
-Optional example password file imported by 'login.py'
+Optional example password file imported by 'login.py'.
 If file cannot be imported or key dictionaries are improperly formatted,
-'login.py' will ask the user to input proper credentials.
+'login.py' will ask the user to manually input proper credentials.
 
 (1) COPY THIS FILE TO 'passwords.py':
 $ cd ~/Trading/trading
