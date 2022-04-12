@@ -182,7 +182,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 slow.printer(str(error))
         # Load Twilio keys
         try:
-            load_key_dict('twilio.key')
+            twilio_key_dict = load_key_dict('twilio.key')
             TWLO_SID_KEY = twilio_key_dict['acc_key']
             TWLO_AUTH_TOKEN = twilio_key_dict['auth_key']
             TWLO_PHONE_NUM = twilio_key_dict['phone_num']
