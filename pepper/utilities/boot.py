@@ -6,7 +6,7 @@ Prompts manual user for service if respective .key file is not found.
 
 !!! NEVER SHARE YOUR *.key FILES !!!
 
-This file also contains helper functions to facilitate.
+This file also contains helper functions such as sms_alert()
 
 """
 
