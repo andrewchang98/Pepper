@@ -163,7 +163,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Save Alpaca keys if successful
         try:
             # Ask to save new Alpaca keys and replace old Alpaca keys
-            if input_confirmation("Save Alpaca Login? This will replace " +
+            if input_confirmation("Save Alpaca Login? This will replace " + \
                                   "any previously saved keys. (y/n)?",
                                   slow.printer):
                 # Try to pickle Alpaca Login dictionary
@@ -232,8 +232,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Save Twilio keys if successful
         try:
             # Ask to save new Twilio keys and replace old Twilio keys
-            if input_confirmation("Save Twilio Login? This will replace any \
-                                  previously saved keys. (y/n)?",
+            if input_confirmation("Save Twilio Login? This will replace" + \
+                                  " any previously saved keys. (y/n)?",
                                   slow.printer):
                 save_key_dict('twilio.key', twilio_key_dict)
                 slow.printer("Twilio Login saved.")
