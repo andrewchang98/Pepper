@@ -169,7 +169,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(str(error))
             # Recurse login with one less login attempt
             max_attempts -= 1
-            slow.printer(f"Retry. You have {str(max_attempts)} more attempts.")
+            slow.printer(f"You have {str(max_attempts)} more attempts.")
             return login(APCA_API_BASE_URL,
                          data_feed,
                          disable_slowprinter,
@@ -252,7 +252,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(str(error))
             # Recurse login with one less login attempt
             max_attempts -= 1
-            slow.printer(f"Retry. You have {str(max_attempts)} more attempts.")
+            slow.printer(f"You have {str(max_attempts)} more attempts.")
             return login(APCA_API_BASE_URL,
                          data_feed,
                          disable_slowprinter,
