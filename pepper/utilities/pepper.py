@@ -21,7 +21,7 @@ class Pepper:
         self.twilio = begin(APCA_API_BASE_URL, data_feed, disable_slowprinter)
         self.locked = True
         self.timezone = tz
-        self.timestamp = get_datetime(tz))
+        self.timestamp = get_datetime(tz)
         self.slow = Printer(50, disable_slowprinter)
 
     def lock(self) -> None:
