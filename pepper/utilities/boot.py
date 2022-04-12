@@ -1,3 +1,14 @@
+"""
+Boot file contains begin() function to begin an Alpaca + Twilio session.
+Provides abstraction barrier for logging in.
+Looks for 'alpaca.key' and 'twilio.key' Pickle files.
+Prompts manual user for service if respective .key file is not found.
+
+!!! NEVER SHARE YOUR *.key FILES !!!
+
+This file also contains helper functions to facilitate.
+"""
+
 import sys
 import socket
 import pickle
