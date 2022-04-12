@@ -110,10 +110,12 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             alpaca_key_dict = load_key_dict('alpaca.key')
             APCA_API_KEY_ID = alpaca_key_dict['acc_key']
             APCA_API_SECRET_KEY = alpaca_key_dict['auth_key']
-            slow.printer(f"Found Alpaca account: {APCA_API_KEY_ID}")
+            slow.printer(f"Loaded Alpaca account: {APCA_API_KEY_ID}")
+            from_alpaca_save = True
             # Asks for new keys if User declines loaded keys
             if not input_confirmation("Continue with loaded account (y/n)?",
                                       slow.printer):
+                from_alpaca_save = False
                 APCA_API_KEY_ID, \
                 APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
         # Asks for new Alpaca keys if Alpaca keys could not be loaded
@@ -121,6 +123,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 KeyError) as error:
             slow.printer("\nError loading Alpaca keys from ~/Trading/trading:")
             slow.printer(str(error))
+            from_alpaca_save = False
             APCA_API_KEY_ID, \
             APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
         # Compile/recompile Alpaca key dictionary
@@ -131,6 +134,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Ask for new Alpaca keys while is_str_dictionary returns False
         while is_str_dictionary(alpaca_key_dict) is False:
             slow.printer("\nEnsure all Alpaca key values are Strings")
+            from_alpaca_save = False
             APCA_API_KEY_ID, \
             APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
             alpaca_key_dict = {
@@ -162,15 +166,17 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             exit(slow.printer)
         # Save Alpaca keys if successful
         try:
-            # Ask to save new Alpaca keys and replace old Alpaca keys
-            if input_confirmation("Save Alpaca Login? This will replace " + \
-                                  "any previously saved keys. (y/n)?",
-                                  slow.printer):
-                # Try to pickle Alpaca Login dictionary
-                save_key_dict('alpaca.key', alpaca_key_dict)
-                slow.printer("Alpaca keys saved.")
-            else:
-                slow.printer("Alpaca keys not saved.")
+            if from_alpaca_save:
+                # Ask to save new Alpaca keys and replace old Alpaca keys
+                if input_confirmation("Save Alpaca Login? This will " + \
+                                      "replace any previously saved keys. " + \
+                                      "(y/n)?",
+                                      slow.printer):
+                    # Try to pickle Alpaca Login dictionary
+                    save_key_dict('alpaca.key', alpaca_key_dict)
+                    slow.printer("Alpaca keys saved.")
+                else:
+                    slow.printer("Alpaca keys not saved.")
         # Print error but do not exit script if exception is raised
         except (AttributeError, ImportError, KeyError) as error:
                 slow.printer("Alpaca keys not saved due to Error:")
@@ -183,7 +189,9 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             TWLO_PHONE_NUM = twilio_key_dict['phone_num']
             TWLO_USER_NUM = twilio_key_dict['user_num']
             slow.printer(f"Found Twilio account: {TWLO_SID_KEY}")
+            from_twilio_save = True
             if not input_confirmation(slow.printer):
+                from_twilio_save = False
                 TWLO_SID_KEY, \
                 TWLO_AUTH_TOKEN, \
                 TWLO_PHONE_NUM, \
@@ -193,6 +201,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 KeyError) as error:
             slow.printer("\nError loading Twilio keys from ~/Trading/trading:")
             slow.printer(str(error))
+            from_twilio_save = False
             TWLO_SID_KEY, \
             TWLO_AUTH_TOKEN, \
             TWLO_PHONE_NUM, \
@@ -207,10 +216,11 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Ask for new Twilio keys while is_str_dictionary returns False
         while is_str_dictionary(twilio_key_dict) is False:
             slow.printer("\nEnsure all Twilio key values are Strings")
+            from_twilio_save = False
             TWLO_SID_KEY, \
             TWLO_AUTH_TOKEN, \
             TWLO_PHONE_NUM, \
-            TWLO_USER_NUM = alpaca_prompter(slow.printer)
+            TWLO_USER_NUM = twilio_prompter(slow.printer)
             twilio_key_dict = {
                                'acc_key'  : TWLO_SID_KEY,
                                'auth_key' : TWLO_AUTH_TOKEN,
@@ -231,14 +241,15 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             exit(slow.printer)
         # Save Twilio keys if successful
         try:
-            # Ask to save new Twilio keys and replace old Twilio keys
-            if input_confirmation("Save Twilio Login? This will replace" + \
-                                  " any previously saved keys. (y/n)?",
-                                  slow.printer):
-                save_key_dict('twilio.key', twilio_key_dict)
-                slow.printer("Twilio Login saved.")
-            else:
-                slow.printer("Twilio Login not saved.")
+            if from_twilio_save:
+                # Ask to save new Twilio keys and replace old Twilio keys
+                if input_confirmation("Save Twilio Login? This will replace" + \
+                                      " any previously saved keys. (y/n)?",
+                                      slow.printer):
+                    save_key_dict('twilio.key', twilio_key_dict)
+                    slow.printer("Twilio Login saved.")
+                else:
+                    slow.printer("Twilio Login not saved.")
         # Print error but do not exit script if exception is raised
         except (AttributeError, ImportError, KeyError) as error:
             slow.printer("Twilio keys not saved due to Error:")
