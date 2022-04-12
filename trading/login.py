@@ -71,7 +71,7 @@ def sms_alert(twilio: Client,
               printer=print) -> None:
     date_format = ' %I:%M%p %w %d %Y'
     timestr = get_timestr('pst')
-    body = client.messages.create(to=receiver,
+    body = twilio.messages.create(to=receiver,
                                   from_=sender,
                                   body=alert+timestr)
 
