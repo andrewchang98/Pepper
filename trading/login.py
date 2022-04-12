@@ -34,12 +34,18 @@ def twilio_prompter(printer:Printer=print) -> tuple:
     user_num = input()
     return acc_key, auth_key, phone_num, user_num
 
-# Save user keys to 'passwords.py'
-def save_keys:
+# Pickle key_dict to file_name
+def save_key_dict(file_name:str, key_dict:dict, printer:Printer=print) -> None:
+    with open(file_name, 'wb') as file:
+        pickle.dump(key_dict, file, pickle.HIGHEST_PROTOCOL)
 
-# Get UTC and convert to PST string following date_format argument
-# Returns unconverted UTC if tz='utc'
-# Raises a TypeError if tz != 'pst' or tz != 'utc'
+# Unpickle key_dict to file_name
+def load_key_dict(file_name:str, key_dict:dict, printer:Printer=print) -> dict:
+    with open(file_name, 'rb') as file:
+        key_dict = pickle.load(file)
+    return key_dict
+
+# Get UTC or PST string following date_format argument
 def get_timestr(tz:str='pst', date_format:str='%I:%M:%S%p %m/%d/%Y %Z') -> str:
     utc = datetime.now(tz=pytz.utc)
     pst = utc.astimezone(timezone('US/Pacific'))
@@ -104,7 +110,7 @@ def login(
         slow = Printer(char_per_sec=50, disabled=disable_slow_print)
 
         try:
-            from passwords import alpaca_key_dict
+            alpaca_key_dict = load_alpaca_key_dict()
             APCA_API_KEY_ID = alpaca_key_dict['acc_key']
             APCA_API_SECRET_KEY = alpaca_key_dict['auth_key']
             slow.printer(f"Found Alpaca account: {APCA_API_KEY_ID}")
@@ -137,6 +143,7 @@ def login(
             slow.printer(str(err))
 
         try:
+
             from passwords import twilio_key_dict
             TWLO_SID_KEY = twilio_key_dict['acc_key']
             TWLO_AUTH_TOKEN = twilio_key_dict['auth_key']
@@ -174,7 +181,7 @@ def login(
     else:
         return alpaca, stream, twilio, slow
 
-
+# Stores outputs of 'login'
 class Connection:
     def __init__(
                  self,
