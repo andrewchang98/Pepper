@@ -118,7 +118,8 @@ def pep(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Asks for new Alpaca keys if Alpaca keys could not be loaded
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
-            slow.printer("\nError loading Alpaca keys from ~/Trading/trading:")
+            slow.printer("\nError loading Alpaca keys from " + \
+                         "~/Peppaboot/peppaboot/utilities:")
             slow.printer(str(error))
             from_alpaca_save = False
             APCA_API_KEY_ID, \
@@ -160,7 +161,7 @@ def pep(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         except (HTTPError, ValueError) as error:
             slow.printer("Error occurred during Alpaca login:")
             slow.printer(str(error))
-            # Recurse login with one less login attempt
+            # Recurse Login with one less Login attempt
             max_attempts -= 1
             # Check max_attempts
             if max_attempts < 1:
@@ -207,7 +208,8 @@ def pep(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Asks for new keys if Twilio keys could not be loaded
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
-            slow.printer("\nError loading Twilio keys from ~/Trading/trading:")
+            slow.printer("\nError loading Twilio keys from " + \
+                         "~/Peppaboot/peppaboot/utilities:")
             slow.printer(str(error))
             from_twilio_save = False
             TWLO_SID_KEY, \
@@ -246,7 +248,7 @@ def pep(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer("Error occured while sending alert to " + \
                          f"{TWLO_USER_NUM}:")
             slow.printer(str(error))
-            # Recurse login with one less login attempt
+            # Recurse Login with one less Login attempt
             max_attempts -= 1
             # Check max_attempts
             if max_attempts < 1:
@@ -280,7 +282,7 @@ def pep(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
     else:
         return alpaca, stream, twilio
 
-# Connection class stores outputs of 'login'
+# Connection class stores outputs of Login
 class Connection:
     def __init__(
                  self,
