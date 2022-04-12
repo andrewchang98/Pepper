@@ -10,7 +10,7 @@ from twilio.rest import Client
 from twilio.base.exceptions import TwilioRestException
 from alpaca_trade_api import REST
 from alpaca_trade_api.stream import Stream
-from utilities import slowprinter.Printer
+from utilities.slowprinter import Printer
 
 # Ask for Alpaca Credentials in the CLI
 def alpaca_prompter(printer=print) -> tuple:
