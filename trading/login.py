@@ -99,7 +99,8 @@ def exit(printer=print, code=0) -> None:
 # The Alpaca + Twilio Login Function that does it all
 def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
-          disable_slowprint=False,
+          disable_slowprinter=False,
+          char_per_sec=50
           max_attempts=3) -> tuple:
     # Check max_attempts
     if max_attempts < 1:
@@ -107,7 +108,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
     # Main Try clause
     try:
         # Instantiate char by char printer
-        slow = Printer(char_per_sec=50, disabled=disable_slowprint)
+        slow = Printer(char_per_sec, disable_slowprinter)
         # Load Alpaca keys
         try:
             alpaca_key_dict = load_key_dict('alpaca.key')
@@ -171,7 +172,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(f"Retry. You have {str(max_attempts)} more attempts.")
             return login(APCA_API_BASE_URL,
                          data_feed,
-                         disable_slowprint,
+                         disable_slowprinter,
+                         char_per_sec,
                          max_attempts)
         # Save Alpaca keys if successful
         try:
@@ -253,7 +255,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(f"Retry. You have {str(max_attempts)} more attempts.")
             return login(APCA_API_BASE_URL,
                          data_feed,
-                         disable_slowprint,
+                         disable_slowprinter,
+                         char_per_sec,
                          max_attempts)
         # Save Twilio keys if successful
         try:
@@ -276,7 +279,7 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         exit(slow.printer)
     # Return tuple of necessary objects
     else:
-        return alpaca, stream, twilio, slow
+        return alpaca, stream, twilio
 
 # Connection class stores outputs of 'login'
 class Connection:
@@ -288,10 +291,11 @@ class Connection:
                 ) -> None:
         self.alpaca, \
         self.stream, \
-        self.twilio, \
-        self.slow = login(APCA_API_KEY_ID,
-                          data_feed,
-                          disable_slowprint=False)
+        self.twilio = login(APCA_API_KEY_ID,
+                            data_feed,
+                            disable_slowprinter=False,
+                            char_per_sec=50,
+                            max_attempts=3)
         self.locked = locked
         self.timestamp = get_timestr()
         self.slow.printer("Connection successful: " + self.timestamp)
