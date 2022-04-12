@@ -1,10 +1,37 @@
-from utilities import boot
-from utilities.slowprinter import Printer
+# Pepper class stores outputs of Boot
+class Connection:
+    def __init__(
+                 self,
+                 APCA_API_KEY_ID="https://paper-api.alpaca.markets",
+                 data_feed='sip',
+                 locked=False
+                ) -> None:
+        self.slow = Printer()
+        self.alpaca, \
+        self.stream, \
+        self.twilio = pep(APCA_API_KEY_ID,
+                            data_feed,
+                            disable_slowprinter=False,
+                            char_per_sec=50,
+                            max_attempts=3)
+        self.locked = locked
+        self.timestamp = get_timestr()
+        self.slow.printer("Connection successful: " + self.timestamp)
 
-slow = Printer()
+    # Set lock attribute to True
+    def lock(self) -> None:
+        self.locked = True
+        self.slow.printer("Connection locked.")
 
-# LOGIN AND ASSIGN ALPACA AND STREAM OBJECTS
-try:
-    bot = boot.Connection()
-except RecursionError as error:
-    slow.printer(str(error))
+    # Set lock attribute to False
+    def unlock(self) -> None:
+        self.locked = False
+        self.slow.printer("Connection unlocked.")
+
+    # Return lock: bool attribute
+    def is_locked(self) -> bool:
+        return self.locked
+
+    # Return timestamp string
+    def get_start_time(self) -> str:
+        return self.timestamp

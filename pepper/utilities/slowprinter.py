@@ -1,8 +1,8 @@
 """
-A char by char print function that returns good vibes.
+A char by char Printer class
 
 ex:
-$ cd ~/Trading/trading
+$ cd ~/Pepper/pepper/utilities
 $ python3
 >>> from slowprinter import Printer
 >>> slow = Printer(100, False)
