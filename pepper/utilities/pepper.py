@@ -13,12 +13,10 @@ class Pepper:
     def __init__(self,
                  APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                  data_feed='sip',
-                 disable_slowprinter=False) -> None:
-        alpaca, \
-        stream, \
-        twilio = begin(APCA_API_BASE_URL,
-                       data_feed,
-                       disable_slowprinter)
+                 disable_slowprinter=False):
+        self.alpaca, \
+        self.stream, \
+        self.twilio = begin(APCA_API_BASE_URL, data_feed, disable_slowprinter)
 
 
 

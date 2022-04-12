@@ -81,7 +81,7 @@ def sms_alert(twilio: Client,
               receiver: str,
               alert="!ALERT!",
               printer=print) -> None:
-    timestr = get_timestr('pst', date_format='%I:%M %p %m/%d/%Y')
+    timestr = get_timestr()
     body = twilio.messages.create(to=receiver,
                                   from_=sender,
                                   body=alert+' '+timestr)
@@ -292,4 +292,5 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         sys.exit(0)
     # Return tuple of necessary objects
     else:
+        slow.printer(f"\nLogin completed successfully. {get_timestr()}\n")
         return alpaca, stream, twilio
