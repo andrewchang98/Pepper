@@ -100,7 +100,7 @@ def exit(printer=print, code=0) -> None:
 def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
           disable_slowprinter=False,
-          char_per_sec=50
+          char_per_sec=50,
           max_attempts=3) -> tuple:
     # Check max_attempts
     if max_attempts < 1:
