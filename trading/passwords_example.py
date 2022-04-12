@@ -17,7 +17,7 @@ $ cd ~/Trading/trading
 $ sudo nano passwords.py
 
 (3) EDIT VALUES IN 'alpha_key_dict' and 'twilio_key_dict':
-NOTE: All user info MUST BE <class 'str'>!
+NOTE: All user info MUST be <class 'str'>!
 """
 
 # Password Dictionary File
