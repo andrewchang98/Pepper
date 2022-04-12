@@ -93,7 +93,7 @@ def input_confirmation(message="Continue (y/n)?", printer=print) -> bool:
         return input_confirmation(printer)
 
 # The Alpaca + Twilio Login Function that does it all
-def pep(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
+def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
           disable_slowprinter=False,
           char_per_sec=50,
@@ -167,7 +167,7 @@ def pep(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             if max_attempts < 1:
                 raise RecursionError("No attempts remaining.")
             slow.printer(f"You have {str(max_attempts)} more attempts.")
-            return pep(APCA_API_BASE_URL,
+            return begin(APCA_API_BASE_URL,
                          data_feed,
                          disable_slowprinter,
                          char_per_sec,
@@ -254,7 +254,7 @@ def pep(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             if max_attempts < 1:
                 raise RecursionError("No attempts remaining.")
             slow.printer(f"You have {str(max_attempts)} more attempts.")
-            return pep(APCA_API_BASE_URL,
+            return begin(APCA_API_BASE_URL,
                          data_feed,
                          disable_slowprinter,
                          char_per_sec,

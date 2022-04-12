@@ -1,4 +1,4 @@
-# Pepper class stores outputs of Boot
+# Pepper class stores outputs of Boot and provides 
 class Connection:
     def __init__(
                  self,
