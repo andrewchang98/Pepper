@@ -235,8 +235,8 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
         # Exit and print error if Twilio fails
         except TwilioRestException as error:
-            slow.printer(f"Error occured while sending alert to \
-                         {TWLO_USER_NUM}:")
+            slow.printer("Error occured while sending alert to " + \
+                         f"{TWLO_USER_NUM}:")
             slow.printer(str(error))
             exit(slow.printer)
         # Save Twilio keys if successful
