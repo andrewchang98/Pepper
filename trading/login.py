@@ -102,9 +102,6 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           disable_slowprinter=False,
           char_per_sec=50,
           max_attempts=3) -> tuple:
-    # Check max_attempts
-    if max_attempts < 1:
-        raise RecursionError("No attempts remaining.")
     # Main Try clause
     try:
         # Instantiate char by char printer
@@ -169,6 +166,9 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(str(error))
             # Recurse login with one less login attempt
             max_attempts -= 1
+            # Check max_attempts
+            if max_attempts < 1:
+                raise RecursionError("No attempts remaining.")
             slow.printer(f"You have {str(max_attempts)} more attempts.")
             return login(APCA_API_BASE_URL,
                          data_feed,
@@ -252,6 +252,9 @@ def login(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(str(error))
             # Recurse login with one less login attempt
             max_attempts -= 1
+            # Check max_attempts
+            if max_attempts < 1:
+                raise RecursionError("No attempts remaining.")
             slow.printer(f"You have {str(max_attempts)} more attempts.")
             return login(APCA_API_BASE_URL,
                          data_feed,
