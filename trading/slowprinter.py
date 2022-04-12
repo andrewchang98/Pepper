@@ -40,7 +40,7 @@ class Printer:
                     stdout.write(char)
                     stdout.flush()
                     sleep(self.delay)
-                if end is not None:
+                if type(end) is str:
                     stdout.write(end)
                     stdout.flush()
         except KeyboardInterrupt:
