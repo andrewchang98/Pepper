@@ -74,13 +74,14 @@ def sms_alert(twilio: Client,
                                   from_=sender,
                                   body=alert+' '+timestr)
 
+# Checks if response matches any args
 def read_input(response: str, *args: str) -> bool:
     for char in args:
         if response == char:
             return True
     return False
 
-
+# Asks user yes or no
 def input_confirmation(message="Continue (y/n)?", printer=print) -> bool:
     printer(message, end=' ')
     response = input()
