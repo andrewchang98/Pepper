@@ -30,8 +30,8 @@ from alpaca_trade_api import REST
 from alpaca_trade_api.stream import Stream
 from utilities.Printer import Printer
 
-# Change this path if you plan on storing your keys elsewhere
-path = 'utilities/keys'
+# Change this string if you plan on renaming the Key File Folder
+path = 'keys'
 
 # Pickle key_dict to file_name
 def save_key_dict(file_name: str, key_dict: dict) -> None:
