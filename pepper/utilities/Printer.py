@@ -39,7 +39,7 @@ class Printer:
             stdout.write(char)
             stdout.flush()
             sleep(self.delay)
-        stdout.write(end))
+        stdout.write(end)
         stdout.flush()
 
     # Enable slow printing
