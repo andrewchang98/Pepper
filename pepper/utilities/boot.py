@@ -10,7 +10,7 @@ This file also contains helper functions such as:
 
 get_timestr(tz, date_format)
 
-def sms_alert(twilio, sender, receiver, alert, printer)
+def sms_alert(twilio, sender, receiver, alert)
 
 """
 
@@ -89,12 +89,10 @@ def get_timestr(tz='pst', date_format='%I:%M:%S %p %m/%d/%Y %Z') -> str:
 def sms_alert(twilio: Client,
               sender: str,
               receiver: str,
-              alert="!ALERT!",
-              printer=print) -> None:
-    timestr = get_timestr()
+              alert="!ALERT! "+get_timestr()) -> str:
     body = twilio.messages.create(to=receiver,
                                   from_=sender,
-                                  body=alert+' '+timestr)
+                                  body=alert)
 
 # Checks if response matches any args
 def read_input(response: str, *args: str) -> bool:
@@ -265,7 +263,9 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         try:
             twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
             sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
-                      alert=f"Pepper booted on {socket.gethostname()}:")
+                      alert=f"Pepper is now {account.status} " + \
+                            f"on {socket.gethostname()}: " + \
+                            get_timestr())
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
         # Exit and print error if Twilio fails
         except (TwilioException, TwilioRestException, ValueError) as error:
