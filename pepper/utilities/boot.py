@@ -119,7 +119,7 @@ def input_confirmation(message="Continue (y/n)?", printer=print) -> bool:
     else:
         return input_confirmation(printer)
 
-# The Alpaca + Twilio Login Function that does it all
+# The Alpaca + Twilio boot Function that does it all
 def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
           disable_slowprinter=False,
@@ -185,11 +185,11 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             account = alpaca.get_account()
             slow.printer(f"Logged in as: {APCA_API_KEY_ID}")
             slow.printer(f"Your account status: {account.status}")
-        # Exit if authentication fails
+        # Recurse boot if authentication fails
         except (HTTPError, ValueError) as error:
             slow.printer("Error occurred during Alpaca login:")
             slow.printer(str(error))
-            # Recurse Login with one less Login attempt
+            # Recurse boot with one less attempt
             max_attempts -= 1
             # Check max_attempts
             if max_attempts < 1:
@@ -206,14 +206,15 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 # Ask to save new Alpaca keys and replace old Alpaca keys
                 if input_confirmation("Remember Alpaca login? (y/n)?",
                                       slow.printer):
-                    # Try to pickle Alpaca Login dictionary
+                    # Pickle Alpaca key dictionary
                     save_key_dict('alpaca.key',
                                   alpaca_key_dict)
                     slow.printer("Alpaca keys saved.")
                 else:
                     slow.printer("Alpaca keys not saved.")
         # Print error but do not exit script if exception is raised
-        except (AttributeError, ImportError, KeyError) as error:
+        except (FileNotFoundError, AttributeError, ImportError,
+                KeyError) as error:
                 slow.printer("Alpaca keys not saved due to Error:")
                 slow.printer(str(error))
         # Load Twilio keys
@@ -277,11 +278,11 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                             f"on {socket.gethostname()}")
             slow.printer(f"Logged in as: {TWLO_SID_KEY}")
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
-        # Exit and print error if Twilio fails
+        # Recurse boot if authentication or sms_alert fails 
         except (TwilioException, TwilioRestException, ValueError) as error:
             slow.printer("Error occurred during Twilio login:")
             slow.printer(str(error))
-            # Recurse Login with one less Login attempt
+            # Recurse boot with one less attempt
             max_attempts -= 1
             # Check max_attempts
             if max_attempts < 1:
@@ -298,20 +299,21 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 # Ask to save new Twilio keys and replace old Twilio keys
                 if input_confirmation("Remember Twilio login (y/n)?",
                                       slow.printer):
+                    # Pickle Twilio key dictionary
                     save_key_dict('twilio.key',
                                   twilio_key_dict)
-                    slow.printer("Twilio Login saved.")
+                    slow.printer("Twilio login saved.")
                 else:
-                    slow.printer("Twilio Login not saved.")
+                    slow.printer("Twilio login not saved.")
         # Print error but do not exit script if exception is raised
         except (AttributeError, ImportError, KeyError) as error:
             slow.printer("Twilio keys not saved due to Error:")
             slow.printer(str(error))
     # Exit gracefully if KeyboardInterrupt is raised.
     except KeyboardInterrupt:
-        slow.printer("\nLogin cancelled by user.\nExiting Now.")
+        slow.printer("\nBoot cancelled by user.\nExiting Now.")
         sys.exit(0)
     # Return tuple of necessary objects
     else:
-        slow.printer(f"\nLogin completed successfully. {get_timestr()}\n")
+        slow.printer(f"\nBoot completed successfully. {get_timestr()}\n")
         return alpaca, stream, twilio
