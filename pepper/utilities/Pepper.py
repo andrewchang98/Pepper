@@ -7,17 +7,19 @@ from utilities.boot import boot, sms_alert, get_datetime
 
 class Pepper:
     def __init__(self,
-                 APCA_API_BASE_URL="https://paper-api.alpaca.markets",
+                 prey_
+                 base_url="https://paper-api.alpaca.markets",
                  data_feed='sip',
-                 tz='pst',
-                 disable_slowprinter=False):
+                 timezone='pst',
+                 enable_printer=True):
         self.alpaca, \
         self.stream, \
-        self.twilio = boot(APCA_API_BASE_URL, data_feed, disable_slowprinter)
+        self.twilio = boot(base_url, data_feed, enable_printer)
         self.locked = True
-        self.timezone = tz
-        self.timestamp = get_datetime(tz)
-        self.slow = Printer(50, disable_slowprinter)
+        self.timezone = timezone
+        self.timestamp = get_datetime(timezone)
+        self.slow = Printer(50, enable_printer)
+        self.hunt()
 
     # Very special ohyeppep Printer
     def ohyep(self, message="Oh yep, Pep!") -> None:
@@ -48,10 +50,10 @@ class Pepper:
     def step(self):
         pass
 
-    # Pepper hunts for prey in symbol_list
-    def hunt(self, symbol_list: list):
-        for symbol in symbol_list:
-            
+    # Pepper hunts for prey in symbol_set
+    def hunt(self, symbol_set: set):
+        for symbol in symbol_set:
+
 
     # Pepper drops everything and prepares for the impending economic crisis
     def panic(self):

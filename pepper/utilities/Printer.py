@@ -4,7 +4,7 @@ A char by char Printer class
 ex:
 $ cd ~/Pepper/pepper/utilities
 $ python3
->>> from slowprinter import Printer
+>>> from Printer import Printer
 >>> slow = Printer(100, False)
 >>> slow.printer("Wow that printed fast!")
 Wow that printed fast!
@@ -22,7 +22,7 @@ from sys import stdout, exit
 from time import sleep
 
 class Printer:
-    def __init__(self, char_per_sec=50, disabled=False):
+    def __init__(self, char_per_sec=50, enabled=True):
         self.disabled = disabled
         if char_per_sec < 1:
             char_per_sec = 1
@@ -32,7 +32,7 @@ class Printer:
     # NOTE: Can only take in one string for now. No separator argument.
     def printer(self, message: str, end='\n') -> None:
         try:
-            if self.disabled:
+            if not self.enabled:
                 print(message, end=end)
             else:
                 for char in message:
@@ -48,11 +48,11 @@ class Printer:
 
     # Enable slow printing
     def enable_printer(self) -> None:
-        self.disabled = False
+        self.enabled = True
 
     # Use built-in print() function
     def disable_printer(self) -> None:
-        self.disabled = True
+        self.enabled = False
 
     # Change print speed in character/second
     def change_char_per_sec(self, char_per_sec=50) -> None:

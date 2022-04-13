@@ -120,13 +120,13 @@ def input_confirmation(message="Continue (y/n)?", printer=print) -> bool:
 # The Alpaca + Twilio boot Function that does it all
 def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
-          disable_slowprinter=False,
+          enable_printer=False,
           char_per_sec=50,
           max_attempts=3) -> tuple:
     # Main Try clause
     try:
         # Instantiate char by char printer
-        slow = Printer(char_per_sec, disable_slowprinter)
+        slow = Printer(char_per_sec, enable_printer)
         # Load Alpaca keys
         try:
             alpaca_key_dict = load_key_dict('alpaca.key')
@@ -195,7 +195,7 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(f"You have {str(max_attempts)} more attempts.")
             return boot(APCA_API_BASE_URL,
                          data_feed,
-                         disable_slowprinter,
+                         enable_printer,
                          char_per_sec,
                          max_attempts)
         # Save Alpaca keys if successful
@@ -288,7 +288,7 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             slow.printer(f"You have {str(max_attempts)} more attempts.")
             return boot(APCA_API_BASE_URL,
                          data_feed,
-                         disable_slowprinter,
+                         enable_printer,
                          char_per_sec,
                          max_attempts)
         # Save Twilio keys if successful
