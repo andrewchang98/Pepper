@@ -278,7 +278,7 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                             f"on {socket.gethostname()}")
             slow.printer(f"Logged in as: {TWLO_SID_KEY}")
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
-        # Recurse boot if authentication or sms_alert fails 
+        # Recurse boot if authentication or sms_alert fails
         except (TwilioException, TwilioRestException, ValueError) as error:
             slow.printer("Error occurred during Twilio login:")
             slow.printer(str(error))
@@ -315,5 +315,5 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         sys.exit(0)
     # Return tuple of necessary objects
     else:
-        slow.printer(f"\nBoot completed successfully. {get_timestr()}\n")
+        slow.printer(f"\nBoot completed successfully @ {get_timestr()}\n")
         return alpaca, stream, twilio
