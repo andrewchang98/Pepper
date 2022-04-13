@@ -57,7 +57,7 @@ class Pepper:
         self.ohyep('Pep says: "Holy Jesus!"')
         pass
 
-    def pray(self):
+    def hailmary(self):
         self.ohyep("Hail, Mary, full of grace,")
         self.ohyep("the Lord is with thee.")
         self.ohyep("Blessed art thou amongst women")
