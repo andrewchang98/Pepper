@@ -153,7 +153,8 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                           }
         # Ask for new Alpaca keys while is_str_dictionary returns False
         while is_str_dictionary(alpaca_key_dict) is False:
-            slow.printer("\nEnsure all Alpaca key values are Strings")
+            slow.printer("\nAlpaca key file is corrupted!. Re-enter keys.")
+            slow.printer("Keep access to key files restricted!")
             from_alpaca_save = False
             APCA_API_KEY_ID, \
             APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
@@ -247,7 +248,8 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                           }
         # Ask for new Twilio keys while is_str_dictionary returns False
         while is_str_dictionary(twilio_key_dict) is False:
-            slow.printer("\nEnsure all Twilio key values are Strings")
+            slow.printer("\nTwilio key file is corrupted!. Re-enter keys.")
+            slow.printer("Keep access to key files restricted!")
             from_twilio_save = False
             TWLO_SID_KEY, \
             TWLO_AUTH_TOKEN, \
@@ -259,18 +261,15 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                                'phone_num': TWLO_PHONE_NUM,
                                'user_num' : TWLO_USER_NUM
                               }
-        # Instantiate Twilio Client and send SMS Alert
+        # Instantiate Twilio Client and Send SMS alert
         try:
-            try:
-                twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
-            except TwilioException:
+            twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
             sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
                       alert=f"Pepper booted on {socket.gethostname()}:")
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
         # Exit and print error if Twilio fails
-        except (TwilioRestException, ValueError) as error:
-            slow.printer("Error occured while sending alert to " + \
-                         f"{TWLO_USER_NUM}:")
+        except (TwilioException, TwilioRestException, ValueError) as error:
+            slow.printer("Error occurred during Twilio login:")
             slow.printer(str(error))
             # Recurse Login with one less Login attempt
             max_attempts -= 1
