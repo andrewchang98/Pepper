@@ -262,10 +262,14 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Instantiate Twilio Client and Send SMS alert
         try:
             twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
-            sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
-                      alert=f"Pepper is now {account.status} " + \
-                            f"on {socket.gethostname()}: " + \
-                            get_timestr())
+            sms_alert(
+                      twilio,
+                      TWLO_PHONE_NUM,
+                      TWLO_USER_NUM,
+                      alert=f"Pepper booted at {get_timestr} and " + \
+                            f"Alpaca is {account.status} " + \
+                            f"on {socket.gethostname}")
+            slow.printer(f"Logged in as: {TWLO_SID_KEY}")
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
         # Exit and print error if Twilio fails
         except (TwilioException, TwilioRestException, ValueError) as error:
