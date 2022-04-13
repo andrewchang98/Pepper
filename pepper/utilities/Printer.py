@@ -34,7 +34,7 @@ class Printer:
         end = str(end)
         if not self.enabled:
             print(*args, sep=sep end=end)
-        message = sep.join(map(str,args))
+        message = sep.join(map(str, args))
         for char in message:
             stdout.write(char)
             stdout.flush()

@@ -9,8 +9,6 @@ Prompts manual user for service if respective .key file is not found.
 This file also contains helper functions such as:
 
 get_timestr(tz, date_format)
-
-def sms_alert(twilio, sender, receiver, alert)
 """
 import os
 import sys
@@ -89,16 +87,6 @@ def get_timestr(tz='pst', date_format='%I:%M:%S %p %m/%d/%Y %Z') -> str:
     dt = get_datetime(tz)
     return dt.strftime(date_format)
 
-
-# Sends SMS alert
-def sms_alert(twilio: Client,
-              sender: str,
-              receiver: str,
-              alert="!ALERT! "+get_timestr()) -> str:
-    body = twilio.messages.create(to=receiver,
-                                  from_=sender,
-                                  body=alert)
-
 # Checks if response matches any args
 def read_input(response: str, *args: str) -> bool:
     for char in args:
@@ -107,15 +95,14 @@ def read_input(response: str, *args: str) -> bool:
     return False
 
 # Asks user yes or no
-def input_confirmation(message="Continue (y/n)?", printer=print) -> bool:
-    printer(message, end=' ')
+def input_confirmation() -> bool:
     response = input()
     if read_input(response, 'y', 'Y'):
         return True
     elif read_input(response, 'n', 'Y'):
         return False
     else:
-        return input_confirmation(printer)
+        return input_confirmation()
 
 # The Alpaca + Twilio boot Function that does it all
 def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
@@ -132,31 +119,32 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             alpaca_key_dict = load_key_dict('alpaca.key')
             APCA_API_KEY_ID = alpaca_key_dict['acc_key']
             APCA_API_SECRET_KEY = alpaca_key_dict['auth_key']
-            slow.printer(f"Loaded Alpaca account: {APCA_API_KEY_ID}")
-            from_alpaca_save = True
-            # Asks for new keys if User declines loaded keys
-            if not input_confirmation("Continue with loaded account (y/n)?",
-                                      slow.printer):
-                from_alpaca_save = False
-                APCA_API_KEY_ID, \
-                APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
         # Asks for new Alpaca keys if Alpaca keys could not be loaded
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
-            slow.printer("\nError loading Alpaca keys from " + \
+            slow.printer("\nError loading Alpaca keys from",
                          "~/Peppaboot/peppaboot/utilities/keys:")
             slow.printer(str(error))
             from_alpaca_save = False
             APCA_API_KEY_ID, \
             APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
-        # Compile/recompile Alpaca key dictionary
-        alpaca_key_dict = {
-                           'acc_key' : APCA_API_KEY_ID,
-                           'auth_key': APCA_API_SECRET_KEY
-                          }
+        else:
+            slow.printer("Loaded Alpaca account:", APCA_API_KEY_ID)
+            from_alpaca_save = True
+            # Asks for new keys if User declines loaded keys
+            slow.printer("Continue with loaded account (y/n)?", end=' ')
+            if not input_confirmation():
+                from_alpaca_save = False
+                APCA_API_KEY_ID, \
+                APCA_API_SECRET_KEY = alpaca_prompter(slow.printer)
+                # Compile/recompile Alpaca key dictionary
+                alpaca_key_dict = {
+                                   'acc_key' : APCA_API_KEY_ID,
+                                   'auth_key': APCA_API_SECRET_KEY
+                                  }
         # Ask for new Alpaca keys while is_str_dictionary returns False
         while is_str_dictionary(alpaca_key_dict) is False:
-            slow.printer("\nAlpaca key file is corrupted!. Re-enter keys.")
+            slow.printer("\nAlpaca keys corrupted!. Re-enter keys.")
             slow.printer("Keep access to key files restricted!")
             from_alpaca_save = False
             APCA_API_KEY_ID, \
@@ -168,6 +156,7 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Connect to Alpaca and get status
         try:
             # Instantiate Alpaca REST and Stream
+            slow.printer("Connecting to Alpaca...")
             alpaca = REST(
                           APCA_API_KEY_ID,
                           APCA_API_SECRET_KEY,
@@ -179,7 +168,6 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                             APCA_API_BASE_URL,
                             data_feed=data_feed
                            )
-            slow.printer("Connecting to Alpaca...")
             account = alpaca.get_account()
             slow.printer(f"Logged in as: {APCA_API_KEY_ID}")
             slow.printer(f"Your account status: {account.status}")
@@ -202,8 +190,8 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         try:
             if not from_alpaca_save:
                 # Ask to save new Alpaca keys and replace old Alpaca keys
-                if input_confirmation("Remember Alpaca login? (y/n)?",
-                                      slow.printer):
+                slow.printer("Remember Alpaca login? (y/n)?", end=' ')
+                if input_confirmation():
                     # Pickle Alpaca key dictionary
                     save_key_dict('alpaca.key',
                                   alpaca_key_dict)
@@ -224,8 +212,8 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             TWLO_TARGET_NUM = twilio_key_dict['target_num']
             slow.printer(f"Found Twilio account: {TWLO_SID_KEY}")
             from_twilio_save = True
-            if not input_confirmation("Continue with loaded account (y/n)?",
-                                      slow.printer):
+            slow.printer("Continue with loaded account (y/n)?", end=' ')
+            if not input_confirmation():
                 from_twilio_save = False
                 TWLO_SID_KEY, \
                 TWLO_AUTH_TOKEN, \
@@ -234,7 +222,7 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         # Asks for new keys if Twilio keys could not be loaded
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
-            slow.printer("\nError loading Twilio keys from " + \
+            slow.printer("\nError loading Twilio keys from",
                          "~/Peppaboot/peppaboot/utilities/keys:")
             slow.printer(str(error))
             from_twilio_save = False
@@ -270,10 +258,14 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                             TWLO_SID_KEY,
                             TWLO_AUTH_TOKEN,
                             TWLO_PHONE_NUM,
-                            TWLO_TARGET_NUM)
-            twilio.text(f"Pepper booted at {get_timestr()} and " + \
-                        f"Alpaca is {account.status} " + \
-                        f"on {socket.gethostname()}")
+                            TWLO_TARGET_NUM
+                           )
+            twilio.text(
+                        f"Pepper booted on: {socket.gethostname()}",
+                        f"Account status: {account.status}",
+                        f"Timestamp: {get_timestr()}",
+                        sep = '\n'
+                       )
             slow.printer(f"Logged in as: {TWLO_SID_KEY}")
             slow.printer(f"Alert sent to: {TWLO_TARGET_NUM}")
         # Recurse boot if authentication or texter fails
@@ -295,11 +287,10 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         try:
             if not from_twilio_save:
                 # Ask to save new Twilio keys and replace old Twilio keys
-                if input_confirmation("Remember Twilio login (y/n)?",
-                                      slow.printer):
+                slow.printer("Continue with loaded account (y/n)?", end=' ')
+                if not input_confirmation():
                     # Pickle Twilio key dictionary
-                    save_key_dict('twilio.key',
-                                  twilio_key_dict)
+                    save_key_dict('twilio.key', twilio_key_dict)
                     slow.printer("Twilio login saved.")
                 else:
                     slow.printer("Twilio login not saved.")
