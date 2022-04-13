@@ -16,7 +16,7 @@ class Texter:
     def text(*args, sep=' ') -> str:
         sep = str(sep)
         message = sep.join(map(str, args))
-        body = twilio.messages.create(
+        body = self.client.messages.create(
                                       to=self.target_num,
                                       from_=self.phone_num,
                                       body=message

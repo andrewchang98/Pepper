@@ -65,7 +65,7 @@ def twilio_prompter(printer=print) -> tuple:
     return acc_key, auth_key, phone_num, target_num
 
 # Returns True if all values in a dictionary are <class 'str'>, else False
-def is_str_dictionary(dict):
+def verify_key_dict(dict):
     for item in dict:
         if type(dict[item]) is not str:
             return False
@@ -142,8 +142,8 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                                    'acc_key' : APCA_API_KEY_ID,
                                    'auth_key': APCA_API_SECRET_KEY
                                   }
-        # Ask for new Alpaca keys while is_str_dictionary returns False
-        while is_str_dictionary(alpaca_key_dict) is False:
+        # Ask for new Alpaca keys while verify_key_dict returns False
+        while verify_key_dict(alpaca_key_dict) is False:
             slow.printer("\nAlpaca keys corrupted!. Re-enter keys.")
             slow.printer("Keep access to key files restricted!")
             from_alpaca_save = False
@@ -237,8 +237,8 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                            'phone_num': TWLO_PHONE_NUM,
                            'target_num' : TWLO_TARGET_NUM
                           }
-        # Ask for new Twilio keys while is_str_dictionary returns False
-        while is_str_dictionary(twilio_key_dict) is False:
+        # Ask for new Twilio keys while verify_key_dict returns False
+        while verify_key_dict(twilio_key_dict) is False:
             slow.printer("\nTwilio key file is corrupted!. Re-enter keys.")
             slow.printer("Keep access to key files restricted!")
             from_twilio_save = False
