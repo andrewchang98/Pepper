@@ -13,7 +13,7 @@ class Pepper:
                  disable_slowprinter=False):
         self.alpaca, \
         self.stream, \
-        self.twilio = begin(APCA_API_BASE_URL, data_feed, disable_slowprinter)
+        self.twilio = boot(APCA_API_BASE_URL, data_feed, disable_slowprinter)
         self.locked = True
         self.timezone = tz
         self.timestamp = get_datetime(tz)
