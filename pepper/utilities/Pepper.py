@@ -29,22 +29,25 @@ class Pepper:
         self.locked = False
         self.slow.printer("Pepper can hunt!")
 
-    def pounce():
+    def step(self):
+        pass
+
+    def pounce(self):
         self.slow.printer("Pepper is getting ready to pounce...")
         self.slow.printer("Pepper decided to pounce!")
         self.slow.printer("Pepper missed! 'Meow!'")
         pass
 
-    def drop():
+    def drop(self):
         pass
 
-    def hunt():
+    def hunt(self):
         pass
 
-    def panic():
+    def panic(self):
         pass
 
-    def ohyep(message="Oh yep, pep!") -> None:
+    def ohyep(self, message="Oh yep, pep!") -> None:
         self.slow.printer(message)
 
 
