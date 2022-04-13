@@ -28,25 +28,19 @@ class Printer:
             char_per_sec = 1
         self.delay = 1 / char_per_sec
 
-    # Main printer function
-    # NOTE: Can only take in one string for now. No separator argument.
-    def printer(self, message: str, end='\n') -> None:
-        if type(message) is not str:
-            raise TypeError("Message argument must be <class 'str'>")
-        try:
-            if not self.enabled:
-                print(message, end=end)
-            else:
-                for char in message:
-                    stdout.write(char)
-                    stdout.flush()
-                    sleep(self.delay)
-                if type(end) is str:
-                    stdout.write(end)
-                    stdout.flush()
-        except KeyboardInterrupt:
-            printer("\nCancelled by user.\nExiting Now.")
-            exit(0)
+    # Main printer function that imitates
+    def printer(self, *args: str, sep=' ', end='\n') -> None:
+        sep = str(sep)
+        end = str(end)
+        if not self.enabled:
+            print(*args, sep=sep end=end)
+        message = sep.join(map(str,args))
+        for char in message:
+            stdout.write(char)
+            stdout.flush()
+            sleep(self.delay)
+        stdout.write(end))
+        stdout.flush()
 
     # Enable slow printing
     def enable_printer(self) -> None:
