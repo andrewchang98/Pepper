@@ -15,14 +15,14 @@ class Pepper:
                  timezone='pst'
                 ):
         self.symbols = symbols
-        self.alpaca, \
+        self.broker, \
         self.stream, \
-        self.twilio = boot(base_url, data_feed, enable_printer)
+        self.sms = boot(base_url, data_feed, enable_printer)
         self.timestamp = get_datetime(timezone)
         self.timezone = timezone
         self.locked = True
         self.slow = Printer(50, enable_printer)
-        self.hunt()
+        self.ohyep("Pep is hungry for )
 
     # Very special ohyeppep Printer
     def ohyep(self, message="Oh yep, Pep!") -> None:

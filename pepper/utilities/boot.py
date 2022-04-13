@@ -63,8 +63,8 @@ def twilio_prompter(printer=print) -> tuple:
     printer("Twilio Phone Number:", end=' ')
     phone_num = input()
     printer("Target Phone Number:", end=' ')
-    user_num = input()
-    return acc_key, auth_key, phone_num, user_num
+    target_num = input()
+    return acc_key, auth_key, phone_num, target_num
 
 # Returns True if all values in a dictionary are <class 'str'>, else False
 def is_str_dictionary(dict):
@@ -221,7 +221,7 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             TWLO_SID_KEY = twilio_key_dict['acc_key']
             TWLO_AUTH_TOKEN = twilio_key_dict['auth_key']
             TWLO_PHONE_NUM = twilio_key_dict['phone_num']
-            TWLO_USER_NUM = twilio_key_dict['user_num']
+            TWLO_TARGET_NUM = twilio_key_dict['target_num']
             slow.printer(f"Found Twilio account: {TWLO_SID_KEY}")
             from_twilio_save = True
             if not input_confirmation("Continue with loaded account (y/n)?",
@@ -230,7 +230,7 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 TWLO_SID_KEY, \
                 TWLO_AUTH_TOKEN, \
                 TWLO_PHONE_NUM, \
-                TWLO_USER_NUM = twilio_prompter(slow.printer)
+                TWLO_TARGET_NUM = twilio_prompter(slow.printer)
         # Asks for new keys if Twilio keys could not be loaded
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
@@ -241,13 +241,13 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             TWLO_SID_KEY, \
             TWLO_AUTH_TOKEN, \
             TWLO_PHONE_NUM, \
-            TWLO_USER_NUM = twilio_prompter(slow.printer)
+            TWLO_TARGET_NUM = twilio_prompter(slow.printer)
         # Create/recompile Twilio key dictionary
         twilio_key_dict = {
                            'acc_key'  : TWLO_SID_KEY,
                            'auth_key' : TWLO_AUTH_TOKEN,
                            'phone_num': TWLO_PHONE_NUM,
-                           'user_num' : TWLO_USER_NUM
+                           'target_num' : TWLO_TARGET_NUM
                           }
         # Ask for new Twilio keys while is_str_dictionary returns False
         while is_str_dictionary(twilio_key_dict) is False:
@@ -257,26 +257,26 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             TWLO_SID_KEY, \
             TWLO_AUTH_TOKEN, \
             TWLO_PHONE_NUM, \
-            TWLO_USER_NUM = twilio_prompter(slow.printer)
+            TWLO_TARGET_NUM = twilio_prompter(slow.printer)
             twilio_key_dict = {
                                'acc_key'  : TWLO_SID_KEY,
                                'auth_key' : TWLO_AUTH_TOKEN,
                                'phone_num': TWLO_PHONE_NUM,
-                               'user_num' : TWLO_USER_NUM
+                               'target_num' : TWLO_TARGET_NUM
                               }
         # Instantiate Twilio Client and Send SMS alert
         try:
-            twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
-            sms_alert(
-                      twilio,
-                      TWLO_PHONE_NUM,
-                      TWLO_USER_NUM,
-                      alert=f"Pepper booted at {get_timestr()} and " + \
-                            f"Alpaca is {account.status} " + \
-                            f"on {socket.gethostname()}")
+            twilio = Texter(
+                            TWLO_SID_KEY,
+                            TWLO_AUTH_TOKEN,
+                            TWLO_PHONE_NUM,
+                            TWLO_TARGET_NUM)
+            twilio.text(f"Pepper booted at {get_timestr()} and " + \
+                        f"Alpaca is {account.status} " + \
+                        f"on {socket.gethostname()}")
             slow.printer(f"Logged in as: {TWLO_SID_KEY}")
-            slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
-        # Recurse boot if authentication or sms_alert fails
+            slow.printer(f"Alert sent to: {TWLO_TARGET_NUM}")
+        # Recurse boot if authentication or texter fails
         except (TwilioException, TwilioRestException, ValueError) as error:
             slow.printer("Error occurred during Twilio login:")
             slow.printer(str(error))
