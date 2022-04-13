@@ -31,7 +31,7 @@ from utilities.Printer import Printer
 # Ask for Alpaca Credentials in the CLI
 def alpaca_prompter(printer=print) -> tuple:
     printer("Log into Alpaca:")
-    printer("\API Key ID:", end=' ')
+    printer("API Key ID:", end=' ')
     acc_key = input()
     printer("Secret Key:", end=' ')
     auth_key = getpass(prompt='')
