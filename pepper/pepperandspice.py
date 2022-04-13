@@ -3,4 +3,4 @@ from utilities.Pepper import Pepper
 
 pep = Pepper()
 
-pep.hunt({'GLD', 'SPY'}])
+pep.hunt({'GLD', 'SPY'})
