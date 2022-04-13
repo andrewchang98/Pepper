@@ -1,5 +1,5 @@
 # Alpaca and Twilio Key Files
-.key
+*.key
 
 # No Push/Pull Files
-.npp
+*.npp
