@@ -33,7 +33,7 @@ class Printer:
         sep = str(sep)
         end = str(end)
         if not self.enabled:
-            print(*args, sep=sep end=end)
+            print(*args, sep=sep, end=end)
         message = sep.join(map(str, args))
         for char in message:
             stdout.write(char)

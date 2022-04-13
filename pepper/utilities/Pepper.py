@@ -8,7 +8,7 @@ from utilities.boot import boot, sms_alert, get_datetime
 class Pepper:
     def __init__(
                  self,
-                 symbols,
+                 symbols: set,
                  base_url="https://paper-api.alpaca.markets",
                  data_feed='sip',
                  enable_printer=True,
