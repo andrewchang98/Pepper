@@ -23,7 +23,7 @@ from getpass import getpass
 from datetime import datetime
 from requests.exceptions import HTTPError
 from twilio.rest import Client
-from twilio.base.exceptions import TwilioRestException
+from twilio.base.exceptions import TwilioException, TwilioRestException
 from alpaca_trade_api import REST
 from alpaca_trade_api.stream import Stream
 from utilities.Printer import Printer
@@ -261,7 +261,9 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                               }
         # Instantiate Twilio Client and send SMS Alert
         try:
-            twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
+            try:
+                twilio = Client(TWLO_SID_KEY, TWLO_AUTH_TOKEN)
+            except TwilioException:
             sms_alert(twilio, TWLO_PHONE_NUM, TWLO_USER_NUM,
                       alert=f"Pepper booted on {socket.gethostname()}:")
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
