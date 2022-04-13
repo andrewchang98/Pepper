@@ -17,6 +17,7 @@ def sms_alert(twilio, sender, receiver, alert)
 import sys
 import socket
 import pickle
+from pathlib import Path, PosixPath
 import pytz
 from pytz import timezone
 from getpass import getpass
@@ -27,6 +28,9 @@ from twilio.base.exceptions import TwilioException, TwilioRestException
 from alpaca_trade_api import REST
 from alpaca_trade_api.stream import Stream
 from utilities.Printer import Printer
+
+# Change this path if you plan on storing your keys elsewhere
+path = Path('~/Pepper/pepper/utilities/keys')
 
 # Ask for Alpaca Credentials in the CLI
 def alpaca_prompter(printer=print) -> tuple:
@@ -52,12 +56,12 @@ def twilio_prompter(printer=print) -> tuple:
 
 # Pickle key_dict to file_name
 def save_key_dict(file_name: str, key_dict: dict) -> None:
-    with open(file_name, 'wb') as file:
+    with path.open(file_name, 'wb') as file:
         pickle.dump(key_dict, file, pickle.HIGHEST_PROTOCOL)
 
 # Unpickle key_dict to file_name
 def load_key_dict(file_name: str) -> dict:
-    with open(file_name, 'rb') as file:
+    with path.open(file_name, 'rb') as file:
         key_dict = pickle.load(file)
     return key_dict
 
@@ -124,7 +128,7 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         slow = Printer(char_per_sec, disable_slowprinter)
         # Load Alpaca keys
         try:
-            alpaca_key_dict = load_key_dict('~/Pepper/pepper/utilities/keys/alpaca.key')
+            alpaca_key_dict = load_key_dict('alpaca.key')
             APCA_API_KEY_ID = alpaca_key_dict['acc_key']
             APCA_API_SECRET_KEY = alpaca_key_dict['auth_key']
             slow.printer(f"Loaded Alpaca account: {APCA_API_KEY_ID}")
@@ -197,12 +201,10 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         try:
             if not from_alpaca_save:
                 # Ask to save new Alpaca keys and replace old Alpaca keys
-                if input_confirmation("Save Alpaca Login? This will " + \
-                                      "replace any previously saved keys. " + \
-                                      "(y/n)?",
+                if input_confirmation("Remember Alpaca login? (y/n)?",
                                       slow.printer):
                     # Try to pickle Alpaca Login dictionary
-                    save_key_dict('~/Pepper/pepper/utilities/keys/alpaca.key',
+                    save_key_dict('alpaca.key',
                                   alpaca_key_dict)
                     slow.printer("Alpaca keys saved.")
                 else:
@@ -213,7 +215,7 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 slow.printer(str(error))
         # Load Twilio keys
         try:
-            twilio_key_dict = load_key_dict('~/Pepper/pepper/utilities/keys/twilio.key')
+            twilio_key_dict = load_key_dict('twilio.key')
             TWLO_SID_KEY = twilio_key_dict['acc_key']
             TWLO_AUTH_TOKEN = twilio_key_dict['auth_key']
             TWLO_PHONE_NUM = twilio_key_dict['phone_num']
@@ -291,10 +293,9 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         try:
             if not from_twilio_save:
                 # Ask to save new Twilio keys and replace old Twilio keys
-                if input_confirmation("Save Twilio Login? This will replace" + \
-                                      " any previously saved keys. (y/n)?",
+                if input_confirmation("Remember Twilio login (y/n)?",
                                       slow.printer):
-                    save_key_dict('~/Pepper/pepper/utilities/keys/twilio.key',
+                    save_key_dict('twilio.key',
                                   twilio_key_dict)
                     slow.printer("Twilio Login saved.")
                 else:
