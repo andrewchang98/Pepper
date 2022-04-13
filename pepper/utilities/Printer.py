@@ -23,7 +23,7 @@ from time import sleep
 
 class Printer:
     def __init__(self, char_per_sec=50, enabled=True):
-        self.disabled = disabled
+        self.enabled = enabled
         if char_per_sec < 1:
             char_per_sec = 1
         self.delay = 1 / char_per_sec
