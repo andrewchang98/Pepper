@@ -30,7 +30,7 @@ from alpaca_trade_api.stream import Stream
 from utilities.Printer import Printer
 
 # Change this path if you plan on storing your keys elsewhere
-path = Path('~/Pepper/pepper/utilities/keys')
+path = Path('~/Pepper/pepper/utilities/keys/')
 
 # Ask for Alpaca Credentials in the CLI
 def alpaca_prompter(printer=print) -> tuple:
