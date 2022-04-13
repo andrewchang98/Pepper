@@ -33,9 +33,9 @@ class Pepper:
         pass
 
     def pounce(self):
-        self.slow.printer("Pepper is getting ready to pounce...")
-        self.slow.printer("Pepper decided to pounce!")
-        self.slow.printer("Pepper missed! 'Meow!'")
+        self.ohyep("Pepper is getting ready to pounce...")
+        self.ohyep("Pepper decided to pounce!")
+        self.ohyep("Pepper missed! Meow!")
         pass
 
     def drop(self):
