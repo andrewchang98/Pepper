@@ -1,5 +1,5 @@
 """
-Boot file contains begin() function to begin an Alpaca + Twilio session.
+Boot file contains boot() function to start an Alpaca + Twilio session.
 Provides abstraction barrier for logging in.
 Looks for 'alpaca.key' and 'twilio.key' Pickle files.
 Prompts manual user for service if respective .key file is not found.
@@ -120,7 +120,7 @@ def input_confirmation(message="Continue (y/n)?", printer=print) -> bool:
         return input_confirmation(printer)
 
 # The Alpaca + Twilio boot Function that does it all
-def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
+def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
           data_feed='sip',
           disable_slowprinter=False,
           char_per_sec=50,
@@ -195,7 +195,7 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             if max_attempts < 1:
                 raise RecursionError("No attempts remaining.")
             slow.printer(f"You have {str(max_attempts)} more attempts.")
-            return begin(APCA_API_BASE_URL,
+            return boot(APCA_API_BASE_URL,
                          data_feed,
                          disable_slowprinter,
                          char_per_sec,
@@ -288,7 +288,7 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
             if max_attempts < 1:
                 raise RecursionError("No attempts remaining.")
             slow.printer(f"You have {str(max_attempts)} more attempts.")
-            return begin(APCA_API_BASE_URL,
+            return boot(APCA_API_BASE_URL,
                          data_feed,
                          disable_slowprinter,
                          char_per_sec,
