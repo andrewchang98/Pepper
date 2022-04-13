@@ -14,6 +14,8 @@ Alpaca Stock Trading Algorithm
 
 """
 
+['DCFC', 'DXCM', 'LDOS', 'LAC', 'SEDG', 'LIN', 'ENPH', 'GLD']
+
 from utilities import boot
 from utilities.slowprinter import Printer
 
