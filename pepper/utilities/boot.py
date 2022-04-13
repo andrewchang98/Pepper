@@ -124,7 +124,7 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         slow = Printer(char_per_sec, disable_slowprinter)
         # Load Alpaca keys
         try:
-            alpaca_key_dict = load_key_dict('alpaca.key')
+            alpaca_key_dict = load_key_dict('~/Pepper/pepper/utilities/keys/alpaca.key')
             APCA_API_KEY_ID = alpaca_key_dict['acc_key']
             APCA_API_SECRET_KEY = alpaca_key_dict['auth_key']
             slow.printer(f"Loaded Alpaca account: {APCA_API_KEY_ID}")
@@ -139,7 +139,7 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
             slow.printer("\nError loading Alpaca keys from " + \
-                         "~/Peppaboot/peppaboot/utilities:")
+                         "~/Peppaboot/peppaboot/utilities/keys:")
             slow.printer(str(error))
             from_alpaca_save = False
             APCA_API_KEY_ID, \
@@ -202,7 +202,8 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                                       "(y/n)?",
                                       slow.printer):
                     # Try to pickle Alpaca Login dictionary
-                    save_key_dict('alpaca.key', alpaca_key_dict)
+                    save_key_dict('~/Pepper/pepper/utilities/keys/alpaca.key',
+                                  alpaca_key_dict)
                     slow.printer("Alpaca keys saved.")
                 else:
                     slow.printer("Alpaca keys not saved.")
@@ -212,7 +213,7 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 slow.printer(str(error))
         # Load Twilio keys
         try:
-            twilio_key_dict = load_key_dict('twilio.key')
+            twilio_key_dict = load_key_dict('~/Pepper/pepper/utilities/keys/twilio.key')
             TWLO_SID_KEY = twilio_key_dict['acc_key']
             TWLO_AUTH_TOKEN = twilio_key_dict['auth_key']
             TWLO_PHONE_NUM = twilio_key_dict['phone_num']
@@ -230,7 +231,7 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         except (FileNotFoundError, AttributeError, ImportError,
                 KeyError) as error:
             slow.printer("\nError loading Twilio keys from " + \
-                         "~/Peppaboot/peppaboot/utilities:")
+                         "~/Peppaboot/peppaboot/utilities/keys:")
             slow.printer(str(error))
             from_twilio_save = False
             TWLO_SID_KEY, \
@@ -293,7 +294,8 @@ def begin(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 if input_confirmation("Save Twilio Login? This will replace" + \
                                       " any previously saved keys. (y/n)?",
                                       slow.printer):
-                    save_key_dict('twilio.key', twilio_key_dict)
+                    save_key_dict('~/Pepper/pepper/utilities/keys/twilio.key',
+                                  twilio_key_dict)
                     slow.printer("Twilio Login saved.")
                 else:
                     slow.printer("Twilio Login not saved.")
