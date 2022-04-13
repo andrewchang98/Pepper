@@ -14,6 +14,7 @@ def sms_alert(twilio, sender, receiver, alert)
 
 """
 
+import os
 import sys
 import socket
 import pickle
@@ -30,7 +31,20 @@ from alpaca_trade_api.stream import Stream
 from utilities.Printer import Printer
 
 # Change this path if you plan on storing your keys elsewhere
-path = Path('~/Pepper/pepper/utilities/keys/')
+path = 'utilities/keys'
+
+# Pickle key_dict to file_name
+def save_key_dict(file_name: str, key_dict: dict) -> None:
+    current_directory = Path(__file__).parent
+    file = open(os.path.join(current_directory, path, file_name), 'wb')
+    pickle.dump(key_dict, file, pickle.HIGHEST_PROTOCOL)
+
+# Unpickle key_dict to file_name
+def load_key_dict(file_name: str) -> dict:
+    current_directory = Path(__file__).parent
+    file = open(os.path.join(current_directory, path, file_name), 'rb')
+    key_dict = pickle.load(file)
+    return key_dict
 
 # Ask for Alpaca Credentials in the CLI
 def alpaca_prompter(printer=print) -> tuple:
@@ -53,17 +67,6 @@ def twilio_prompter(printer=print) -> tuple:
     printer("Target Phone Number:", end=' ')
     user_num = input()
     return acc_key, auth_key, phone_num, user_num
-
-# Pickle key_dict to file_name
-def save_key_dict(file_name: str, key_dict: dict) -> None:
-    with path.open(file_name, 'wb') as file:
-        pickle.dump(key_dict, file, pickle.HIGHEST_PROTOCOL)
-
-# Unpickle key_dict to file_name
-def load_key_dict(file_name: str) -> dict:
-    with path.open(file_name, 'rb') as file:
-        key_dict = pickle.load(file)
-    return key_dict
 
 # Returns True if all values in a dictionary are <class 'str'>, else False
 def is_str_dictionary(dict):
