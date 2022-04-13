@@ -18,7 +18,6 @@ S L O W   M O T I O N
 Just a regular print <3
 End.
 """
-
 from sys import stdout, exit
 from time import sleep
 

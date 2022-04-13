@@ -11,9 +11,7 @@ This file also contains helper functions such as:
 get_timestr(tz, date_format)
 
 def sms_alert(twilio, sender, receiver, alert)
-
 """
-
 import os
 import sys
 import socket
