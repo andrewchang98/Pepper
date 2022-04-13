@@ -271,8 +271,8 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                       twilio,
                       TWLO_PHONE_NUM,
                       TWLO_USER_NUM,
-                      alert=f"Pepper booted at {get_timestr} and " + \
-                            f"Alpaca is {account.status()} " + \
+                      alert=f"Pepper booted at {get_timestr()} and " + \
+                            f"Alpaca is {account.status} " + \
                             f"on {socket.gethostname()}")
             slow.printer(f"Logged in as: {TWLO_SID_KEY}")
             slow.printer(f"Alert sent to: {TWLO_USER_NUM}")
