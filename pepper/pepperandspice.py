@@ -1,3 +1,3 @@
-from utilities import Pepper
+from utilities.Pepper import Pepper
 
 pep = Pepper()
