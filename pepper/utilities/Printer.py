@@ -31,6 +31,8 @@ class Printer:
     # Main printer function
     # NOTE: Can only take in one string for now. No separator argument.
     def printer(self, message: str, end='\n') -> None:
+        if type(message) is not str:
+            raise TypeError("Message argument must be <class 'str'>")
         try:
             if not self.enabled:
                 print(message, end=end)

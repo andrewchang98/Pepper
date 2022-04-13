@@ -6,18 +6,21 @@ from utilities.Printer import Printer
 from utilities.boot import boot, sms_alert, get_datetime
 
 class Pepper:
-    def __init__(self,
-                 prey_
+    def __init__(
+                 self,
+                 symbols: set,
                  base_url="https://paper-api.alpaca.markets",
                  data_feed='sip',
-                 timezone='pst',
-                 enable_printer=True):
+                 enable_printer=True,
+                 timezone='pst'
+                ):
+        self.symbols = symbols
         self.alpaca, \
         self.stream, \
         self.twilio = boot(base_url, data_feed, enable_printer)
-        self.locked = True
-        self.timezone = timezone
         self.timestamp = get_datetime(timezone)
+        self.timezone = timezone
+        self.locked = True
         self.slow = Printer(50, enable_printer)
         self.hunt()
 
@@ -51,8 +54,8 @@ class Pepper:
         pass
 
     # Pepper hunts for prey in symbol_set
-    def hunt(self, symbol_set: set):
-        for symbol in symbol_set:
+    def hunt(self):
+        for symbol in self.symbols:
 
 
     # Pepper drops everything and prepares for the impending economic crisis
