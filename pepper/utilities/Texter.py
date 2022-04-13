@@ -13,7 +13,7 @@ class Texter:
         self.phone_num = phone_num
         self.target_num = target_num
 
-    def text(*args, sep=' ') -> bool:
+    def text(*args, sep=' ') -> str:
         sep = str(sep)
         message = sep.join(map(str, args))
         body = twilio.messages.create(
@@ -21,3 +21,4 @@ class Texter:
                                       from_=self.phone_num,
                                       body=message
                                      )
+        return message
