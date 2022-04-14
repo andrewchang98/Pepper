@@ -295,10 +295,10 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 else:
                     slow.printer("Twilio login not saved.")
         # Print error but do not exit script if exception is raised
-    except (FileNotFoundError, AttributeError, ImportError,
-            KeyError) as error:
-            slow.printer("Twilio keys not saved due to Error:")
-            slow.printer(str(error))
+        except (FileNotFoundError, AttributeError, ImportError,
+                KeyError) as error:
+                slow.printer("Twilio keys not saved due to Error:")
+                slow.printer(str(error))
     # Exit gracefully if KeyboardInterrupt is raised.
     except KeyboardInterrupt:
         slow.printer("\nBoot cancelled by user.\nExiting Now.")
