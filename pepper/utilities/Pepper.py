@@ -29,7 +29,7 @@ class Pepper:
 
     # Very special ohyeppep Printer
     def ohyep(self, message="Oh yep, Pep!", sep=' ', end='\n') -> None:
-        self.slow.printer(message, sep, end)
+        self.slow.printer(message, sep=sep, end=end)
 
     # Lock Pepper inside so she cannot hunt
     def lock(self) -> None:
