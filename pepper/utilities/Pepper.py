@@ -3,7 +3,7 @@ Pepper class stores outputs of Boot
 Provides an abstraction layer above the Alpaca API
 """
 from utilities.Printer import Printer
-from utilities.boot import boot, sms_alert, get_datetime
+from utilities.boot import boot, get_datetime
 
 class Pepper:
     def __init__(
