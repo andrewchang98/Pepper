@@ -13,7 +13,7 @@ class Texter:
         self.phone_num = phone_num
         self.target_num = target_num
 
-    def text(*args, sep=' ') -> str:
+    def text(self, *args, sep=' ') -> str:
         sep = str(sep)
         message = sep.join(map(str, args))
         body = self.client.messages.create(
