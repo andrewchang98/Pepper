@@ -1,6 +1,7 @@
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioException, TwilioRestException
 
+# Twilio SMS Texter class
 class Texter:
     def __init__(
                  self,
@@ -9,10 +10,12 @@ class Texter:
                  phone_num: str,
                  target_num: str
                 ):
+        # Instantiate Twilio Client
         self.client = Client(acc_key, auth_key)
         self.phone_num = phone_num
         self.target_num = target_num
 
+    # Send SMS text method
     def text(self, *args, sep=' ') -> str:
         sep = str(sep)
         message = sep.join(map(str, args))

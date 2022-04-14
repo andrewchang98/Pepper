@@ -21,6 +21,7 @@ End.
 from sys import stdout, exit
 from time import sleep
 
+# Slow printer class
 class Printer:
     def __init__(self, char_per_sec=50, enabled=True):
         self.enabled = enabled
