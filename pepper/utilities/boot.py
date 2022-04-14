@@ -25,6 +25,7 @@ from twilio.base.exceptions import TwilioException, TwilioRestException
 from alpaca_trade_api import REST
 from alpaca_trade_api.stream import Stream
 from utilities.Printer import Printer
+from utilities.Texter import Texter
 
 # Change this string if you plan on renaming the Key File Folder
 path = 'keys'
