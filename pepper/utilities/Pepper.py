@@ -59,7 +59,7 @@ class Pepper:
     # Pepper hunts for prey in symbol_set
     def hunt(self):
         for symbol in self.symbols:
-
+            pass
 
     # Pepper drops everything and prepares for the impending economic crisis
     def panic(self):
