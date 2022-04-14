@@ -194,8 +194,7 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
                 slow.printer("Remember Alpaca login? (y/n)?", end=' ')
                 if input_confirmation():
                     # Pickle Alpaca key dictionary
-                    save_key_dict('alpaca.key',
-                                  alpaca_key_dict)
+                    save_key_dict('alpaca.key', alpaca_key_dict)
                     slow.printer("Alpaca keys saved.")
                 else:
                     slow.printer("Alpaca keys not saved.")
@@ -288,15 +287,16 @@ def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
         try:
             if not from_twilio_save:
                 # Ask to save new Twilio keys and replace old Twilio keys
-                slow.printer("Continue with loaded account (y/n)?", end=' ')
-                if not input_confirmation():
+                slow.printer("Remember Twilio login (y/n)?", end=' ')
+                if input_confirmation():
                     # Pickle Twilio key dictionary
                     save_key_dict('twilio.key', twilio_key_dict)
                     slow.printer("Twilio login saved.")
                 else:
                     slow.printer("Twilio login not saved.")
         # Print error but do not exit script if exception is raised
-        except (AttributeError, ImportError, KeyError) as error:
+    except (FileNotFoundError, AttributeError, ImportError,
+            KeyError) as error:
             slow.printer("Twilio keys not saved due to Error:")
             slow.printer(str(error))
     # Exit gracefully if KeyboardInterrupt is raised.
