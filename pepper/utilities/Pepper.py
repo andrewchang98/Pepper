@@ -24,7 +24,7 @@ class Pepper:
         self.slow = Printer(50, enable_printer)
         self.ohyep("Pep is looking for:", end=' ')
         for symbol in symbols:
-            self.ohyep(symbol, end=' ')
+            self.ohyep(symbol, sep=' ', end='')
         self.ohyep()
 
     # Very special ohyeppep Printer
