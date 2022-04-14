@@ -11,7 +11,7 @@ Wow that printed fast!
 >>> slow = Printer(50, False)
 >>> slow.printer("I like this one.", end=' ')
 I like this one. >>> slow = Printer(10, False)
->>> slow.printer("S L O W   M O T I O N")
+>>> slow.printer(' '.join('SLOW MOTION'))
 S L O W   M O T I O N
 >>> slow = Printer(10, True)
 >>> slow.printer("Just a regular print <3", end="\nEnd.\n")

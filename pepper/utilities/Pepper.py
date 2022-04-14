@@ -22,7 +22,10 @@ class Pepper:
         self.timezone = timezone
         self.locked = True
         self.slow = Printer(50, enable_printer)
-        self.ohyep("Pep is hungry for )
+        self.ohyep("Pep is looking for:", end=' ')
+        for symbol in symbols:
+            self.ohyep(symbol, end=' ')
+        self.ohyep()
 
     # Very special ohyeppep Printer
     def ohyep(self, message="Oh yep, Pep!") -> None:
