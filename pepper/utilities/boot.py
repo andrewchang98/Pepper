@@ -107,10 +107,10 @@ def input_confirmation() -> bool:
 
 # The Alpaca + Twilio boot Function that does it all
 def boot(APCA_API_BASE_URL="https://paper-api.alpaca.markets",
-          data_feed='sip',
-          enable_printer=False,
-          char_per_sec=50,
-          max_attempts=3) -> tuple:
+         data_feed='sip',
+         enable_printer=False,
+         char_per_sec=50,
+         max_attempts=3) -> tuple:
     # Main Try clause
     try:
         # Instantiate char by char printer
