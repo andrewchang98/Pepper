@@ -30,6 +30,8 @@ class Printer:
 
     # Main printer function that imitates
     def printer(self, *args: str, sep=' ', end='\n') -> None:
+        sep = str(sep)
+        end = str(end)
         if not self.enabled:
             print(*args, sep=sep, end=end)
         message = sep.join(map(str, args))
