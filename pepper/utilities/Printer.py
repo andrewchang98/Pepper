@@ -28,7 +28,7 @@ class Printer:
             char_per_sec = 1
         self.delay = 1 / char_per_sec
 
-    # Main printer function that imitates
+    # Main printer function that imitates built-in print function
     def printer(self, *args: str, sep=' ', end='\n') -> None:
         sep = str(sep)
         end = str(end)
